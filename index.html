@@ -111,7 +111,7 @@ footer {
   border: 1px solid var(--bdr2);
   border-radius: 7px;
   color: var(--txt);
-  font-family: var(--font-hd);
+  font-family: 'Orbitron', sans-serif;
   font-size: 15px;
   font-weight: 700;
   height: 42px;
@@ -131,11 +131,12 @@ footer {
   transition: filter .1s;
 }
 .kb-key:active { filter: brightness(1.4); }
-.kb-key.kb-wide { flex: 1.6; max-width: 52px; font-size: 12px; letter-spacing: 0.5px; }
-.kb-key.kb-bksp { font-size: 28px; letter-spacing: 0; }
-.kb-key.kb-hit  { background: var(--ok-dim); border-color: var(--ok); color: var(--ok); }
-.kb-key.kb-near { background: rgba(255,200,0,.12); border-color: var(--gold); color: var(--gold); }
+.kb-key.kb-wide { flex: 1.6; max-width: 52px; font-size: 12px; letter-spacing: 0.5px; font-family: var(--font-hd); }
+.kb-key.kb-bksp { font-size: 28px; letter-spacing: 0; font-family: var(--font-hd); }
+.kb-key.kb-hit  { background: var(--ok-dim); border-color: var(--ok); }
+.kb-key.kb-near { background: rgba(255,200,0,.12); border-color: var(--gold); }
 .kb-key.kb-miss { opacity: .28; }
+.kb-key .sg-correct { stroke: var(--seg); filter: none; }
 
 /* ── CABEÇALHO ── */
 #logo-header {
@@ -185,8 +186,10 @@ main[data-letters="7"] {
 }
 
 .right-btns {
-  margin-top: 0;
-  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 /* ── COLUNA ESQUERDA / GLYPHS ── */
@@ -579,6 +582,22 @@ main[data-letters="7"] {
 .btn-reveal:hover { border-color:var(--acc); color:var(--acc); }
 
 /* ── TUTORIAL ── */
+/* ── MODES MODAL ── */
+.modes-modal { background:var(--surf); border:1px solid var(--bdr2); border-radius:16px; padding:clamp(22px,5vw,34px); width:100%; max-width:390px; display:flex; flex-direction:column; gap:18px; transform:scale(.94); transition:transform .2s; }
+.ov.show .modes-modal { transform:scale(1); }
+.modes-grid { display:flex; flex-direction:column; gap:10px; }
+.mode-card { display:flex; align-items:center; gap:14px; background:var(--surf2); border:1px solid var(--bdr2); border-radius:12px; padding:14px 16px; cursor:pointer; transition:all .18s; text-align:left; text-decoration:none; }
+.mode-card:not(.mode-soon):hover { border-color:var(--acc); background:var(--acc-dim); }
+.mode-card.mode-soon { opacity:.52; cursor:default; }
+.mode-card-icon { width:38px; height:38px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.mode-card-icon svg { fill:none; stroke:var(--txt-mid); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.mode-card-info { flex:1; min-width:0; }
+.mode-card-name { font-family:var(--font-dig); font-weight:700; font-size:13px; color:var(--acc); letter-spacing:2.5px; }
+.mode-card-desc { font-family:var(--font-ui); font-size:11px; color:var(--txt-mid); margin-top:3px; line-height:1.45; }
+.mode-card-badge { font-family:var(--font-ui); font-size:9px; font-weight:700; letter-spacing:1.5px; padding:3px 8px; border-radius:4px; flex-shrink:0; }
+.mode-card-badge.badge-active { background:var(--ok-dim); color:var(--ok); border:1px solid rgba(97,218,138,.35); }
+.mode-card-badge.badge-soon { background:rgba(255,255,255,.04); color:var(--txt-dim); border:1px solid var(--bdr2); }
+
 .tut-modal { background:var(--surf); border:1px solid var(--bdr2); border-radius:16px; padding:clamp(24px,5vw,36px); width:100%; max-width:580px; max-height:92dvh; overflow-y:auto; display:flex; flex-direction:column; gap:20px; transform:scale(.94); transition:transform .2s; }
 .ov.show .tut-modal { transform:scale(1); }
 .tut-slide { display:none; flex-direction:column; align-items:center; gap:18px; text-align:center; }
@@ -622,6 +641,27 @@ main[data-letters="7"] {
 .cal-day.playing.today::after { background:#0b0c10; }
 .cal-legend { display:flex; gap:12px; justify-content:center; font-size:9px; color:var(--txt-dim); letter-spacing:1px; flex-wrap:wrap; }
 .leg-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:4px; vertical-align:middle; }
+
+/* ── TENTATIVAS FIXAS (mobile) ── */
+#att-drawer { display: none; }
+@media (max-width: 700px) {
+  #att-drawer { display: none; width: 100%; }
+  #att-drawer.att-has { display: block; }
+  #att-drawer-handle { display: none; }
+  #att-drawer-body {
+    display: flex; flex-direction: column; gap: 4px; align-items: center;
+    padding: 0 12px;
+  }
+  .mob-att-row { display: flex; gap: clamp(3px, 1vw, 5px); }
+  .mob-att-cell {
+    width: clamp(20px, 9.5vw, 34px); height: clamp(20px, 9.5vw, 34px);
+    border-radius: 5px; border: 1px solid var(--bdr2); background: var(--surf);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-dig); font-size: clamp(9px, 2.6vw, 13px);
+    font-weight: 700; color: var(--txt-mid);
+  }
+  .mob-att-cell.correct { background: var(--ok-dim); border-color: var(--ok); color: var(--ok); }
+}
 
 /* ── MOBILE ── */
 @media (max-width: 700px) {
@@ -720,7 +760,7 @@ main[data-letters="7"] {
 
 
   /* Modais: quase tela cheia */
-  .modal, .tut-modal, .cal-modal {
+  .modal, .tut-modal, .cal-modal, .modes-modal {
     max-width: calc(100vw - 28px);
     max-height: 88dvh;
   }
@@ -877,7 +917,52 @@ main[data-letters="7"] {
 }
 #hard-badge.visible { display: flex; }
 
-
+/* ── HARD MODE: tema visual ── */
+body.hard-active .glass-card {
+  border-color: rgba(248,81,73,.28);
+  box-shadow: 0 0 24px rgba(248,81,73,.07);
+}
+body.hard-active .right-card-container {
+  border-color: rgba(248,81,73,.28) !important;
+}
+body.hard-active .cell-box.focused {
+  border-color: var(--err);
+  box-shadow: 0 0 0 2px rgba(248,81,73,.20);
+  background: rgba(248,81,73,.06);
+}
+body.hard-active .logo-name {
+  color: var(--acc);
+  text-shadow: 0 0 22px rgba(248,81,73,.55);
+}
+body.hard-active .logo-icon .sg-correct {
+  stroke: var(--err);
+  filter: drop-shadow(0 0 5px rgba(248,81,73,.7));
+}
+@keyframes hardPulse {
+  0%,100% { border-color: rgba(248,81,73,.25); box-shadow: 0 0 6px rgba(248,81,73,.08); }
+  50%      { border-color: rgba(248,81,73,.70); box-shadow: 0 0 16px rgba(248,81,73,.35); }
+}
+@media (max-width: 700px) {
+  body.hard-active .g-cell { animation: hardPulse 2s ease-in-out infinite; }
+  #btn-alpha { display: none; }
+}
+@keyframes hardPulseBox {
+  0%,100% { border-color: rgba(248,81,73,.20); box-shadow: 0 0 10px rgba(248,81,73,.06); }
+  50%      { border-color: rgba(248,81,73,.65); box-shadow: 0 0 28px rgba(248,81,73,.22); }
+}
+@media (min-width: 701px) {
+  body.hard-active #left-col .glass-card { animation: hardPulseBox 2s ease-in-out infinite; }
+  body.hard-active .g-cell {
+    border-color: rgba(248,81,73,.45);
+    box-shadow: 0 0 10px rgba(248,81,73,.12);
+  }
+}
+@media (prefers-color-scheme: light) {
+  body.hard-active .glass-card { border-color: rgba(200,50,50,.22); }
+  body.hard-active .right-card-container { border-color: rgba(200,50,50,.22) !important; }
+  body.hard-active .cell-box.focused { border-color: #c03030; box-shadow: 0 0 0 2px rgba(192,48,48,.15); background: rgba(192,48,48,.05); }
+  body.hard-active .logo-name { color: #b02020; text-shadow: none; }
+}
 
 /* ── MOBILE LANDSCAPE: igual ao desktop (duas colunas) ── */
 @media (pointer: coarse) and (orientation: landscape) and (max-height: 500px) {
@@ -1161,6 +1246,12 @@ main[data-letters="7"] {
       </div>
     </div>
 
+    <!-- Tentativas fixas (mobile only) -->
+    <div id="att-drawer">
+      <button id="att-drawer-handle" style="display:none"></button>
+      <div id="att-drawer-body"></div>
+    </div>
+
     <div class="glass-card right-card-container">
       <div id="right-col">
         <div class="right-btns">
@@ -1176,6 +1267,9 @@ main[data-letters="7"] {
           </button>
           <button class="btn-ico" id="btn-stats" title="Estatísticas">
             <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </button>
+          <button class="btn-ico" id="btn-modes" title="Modos de jogo">
+            <svg viewBox="0 0 24 24" width="16" height="16"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
           </button>
         </div>
 
@@ -1224,6 +1318,82 @@ main[data-letters="7"] {
     <div class="end-sub"   id="end-sub"></div>
     <button class="btn-p"  id="btn-share">COMPARTILHAR</button>
     <button class="btn-s"  id="btn-end-close">FECHAR</button>
+  </div>
+</div>
+
+<!-- Modal: modos de jogo -->
+<div class="ov" id="modes-ov">
+  <div class="modes-modal">
+    <div class="modal-title">MODOS DE JOGO</div>
+    <div class="modes-grid">
+
+      <!-- Diário (ativo) -->
+      <div class="mode-card" id="mode-daily">
+        <div class="mode-card-icon">
+          <svg viewBox="0 0 38 38" width="38" height="38">
+            <rect x="4" y="4" width="30" height="30" rx="5" stroke-width="1.6"/>
+            <path d="M12 4v6M26 4v6M4 16h30" stroke-width="1.6"/>
+            <path d="M14 24h10M19 20v8" stroke-width="2" stroke="var(--acc)"/>
+          </svg>
+        </div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">DIÁRIO</div>
+          <div class="mode-card-desc">Uma palavra por dia, igual para todos.</div>
+        </div>
+        <div class="mode-card-badge badge-active">ATIVO</div>
+      </div>
+
+      <!-- Infinito (em breve) -->
+      <div class="mode-card mode-soon">
+        <div class="mode-card-icon">
+          <svg viewBox="0 0 38 38" width="38" height="38">
+            <path d="M8 19c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8 8 8-8-3.6-8-8" stroke-width="1.8"/>
+            <path d="M30 19c0 4.4-3.6 8-8 8" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">INFINITO</div>
+          <div class="mode-card-desc">Jogue sem parar, sem limite de palavras.</div>
+        </div>
+        <div class="mode-card-badge badge-soon">EM BREVE</div>
+      </div>
+
+      <!-- Dupla (em breve) -->
+      <div class="mode-card mode-soon">
+        <div class="mode-card-icon">
+          <svg viewBox="0 0 38 38" width="38" height="38">
+            <rect x="2" y="9" width="15" height="20" rx="3" stroke-width="1.6"/>
+            <rect x="21" y="9" width="15" height="20" rx="3" stroke-width="1.6"/>
+            <path d="M7 15h5M7 19h5M7 23h3" stroke-width="1.5"/>
+            <path d="M26 15h5M26 19h5M26 23h3" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">DUPLA</div>
+          <div class="mode-card-desc">Resolva 2 palavras ao mesmo tempo.</div>
+        </div>
+        <div class="mode-card-badge badge-soon">EM BREVE</div>
+      </div>
+
+      <!-- Quarteto (em breve) -->
+      <div class="mode-card mode-soon">
+        <div class="mode-card-icon">
+          <svg viewBox="0 0 38 38" width="38" height="38">
+            <rect x="2"  y="2"  width="15" height="15" rx="3" stroke-width="1.6"/>
+            <rect x="21" y="2"  width="15" height="15" rx="3" stroke-width="1.6"/>
+            <rect x="2"  y="21" width="15" height="15" rx="3" stroke-width="1.6"/>
+            <rect x="21" y="21" width="15" height="15" rx="3" stroke-width="1.6"/>
+          </svg>
+        </div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">QUARTETO</div>
+          <div class="mode-card-desc">Quatro palavras simultâneas. Para os corajosos.</div>
+        </div>
+        <div class="mode-card-badge badge-soon">EM BREVE</div>
+      </div>
+
+    </div>
+    <button class="btn-s" id="btn-modes-close">FECHAR</button>
   </div>
 </div>
 
@@ -1374,6 +1544,7 @@ function saveHardMode(){ const s=st(); s.hardMode=hardMode; sv(s); }
 function updateHardBadge(){
   const badge=document.getElementById('hard-badge');
   if(badge) badge.classList.toggle('visible', !!hardMode);
+  document.body.classList.toggle('hard-active', !!hardMode);
 }
 
 // Nascem aguardando a verificação do servidor
@@ -1473,6 +1644,14 @@ function setFocus(idx){
 function cellType(ch){
   const t=getTarget(currentDay),c=norm(ch);
   if(!c||G.status!=='playing')return;
+  // Verifica se a letra já foi tentada nessa posição e não acertou
+  if(G.attempts.length>0&&!corrPos[focusIdx]){
+    const triedHere=G.attempts.some(att=>att[focusIdx]===c&&c!==t[focusIdx]);
+    if(triedHere){
+      if(hardMode){toast(`"${c}" JÁ TENTADA NA POSIÇÃO ${focusIdx+1}`);return;}
+      else toast(`"${c}" JÁ FOI TENTADA NESTA POSIÇÃO`);
+    }
+  }
   cellVals[focusIdx]=c;refreshCell(focusIdx);
   let next=-1;for(let i=focusIdx+1;i<t.length;i++)if(!corrPos[i]){next=i;break;}
   if(next!==-1)setFocus(next);
@@ -1521,9 +1700,11 @@ function buildKb(){
     for(const key of row){
       const btn=document.createElement('button');
       btn.className='kb-key';
-      if(key==='⌫'){btn.classList.add('kb-wide','kb-bksp');}
-      else if(key==='ENTER')btn.classList.add('kb-wide');
-      btn.textContent=key;
+      if(key==='⌫'){btn.classList.add('kb-wide','kb-bksp');btn.textContent='⌫';}
+      else if(key==='ENTER'){btn.classList.add('kb-wide');btn.textContent='ENTER';}
+      else{
+        btn.innerHTML=makeTutSVG(key,'correct',10,15);
+      }
       btn.addEventListener('pointerdown',e=>{
         e.preventDefault();
         if(key==='⌫')cellBackspace();
@@ -1706,30 +1887,25 @@ async function submitGuess(raw){
         toast(`POSIÇÃO ${i+1} DEVE SER "${t[i]}"`);shakeInp();return;
       }
     }
-    // Regra 2: não pode usar letra descartada NA MESMA POSIÇÃO
-    // (letra descartada = nenhum segmento em comum com a letra alvo daquela posição)
+    // Regra 2: não pode repetir letra já tentada em posição errada
     for(let i=0;i<w.length;i++){
       if(corrPos[i]) continue;
       for(const att of G.attempts){
         const ch=att[i];
         if(!ch||ch===t[i]) continue;
-        // ch foi tentada na posição i e não é correta
-        // é "miss" nessa posição se não tem nenhum segmento em comum com t[i]
-        const gs=new Set(segsOf(ch));
-        const hasCommon=[...segsOf(t[i])].some(s=>gs.has(s));
-        if(!hasCommon && w[i]===ch){
-          toast(`POSIÇÃO ${i+1}: "${ch}" JÁ DESCARTADA AQUI`);shakeInp();return;
+        if(w[i]===ch){
+          toast(`POSIÇÃO ${i+1}: "${ch}" JÁ TENTADA AQUI`);shakeInp();return;
         }
       }
     }
-    // Regra 3: cada posição deve usar ao menos um segmento já revelado
+    // Regra 3: cada posição deve usar TODOS os segmentos já revelados
     for(let i=0;i<t.length;i++){
       if(corrPos[i]) continue;
       if(revSegs[i].size===0) continue;
       const gs=new Set(segsOf(w[i]));
-      const usesRevealed=[...revSegs[i]].some(s=>gs.has(s));
-      if(!usesRevealed){
-        toast(`POSIÇÃO ${i+1}: USE UM TRAÇO JÁ REVELADO`);shakeInp();return;
+      const missing=[...revSegs[i]].filter(s=>!gs.has(s));
+      if(missing.length>0){
+        toast(`POSIÇÃO ${i+1}: INCLUA TODOS OS TRAÇOS REVELADOS`);shakeInp();return;
       }
     }
   }
@@ -1769,6 +1945,25 @@ function makeSVG(pos,prevRev){
     else{const isNew=rev.has(id)&&!prv.has(id);p+=`<path class="${rev.has(id)?'sg sg-on'+(isNew?' sg-new':''):'sg sg-ghost'}" d="${SEGS[id]}"/>`;}
   }
   return `<svg viewBox="0 0 40 60" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">${p}</svg>`;
+}
+
+function renderMobileDrawer(){
+  const drawer=document.getElementById('att-drawer');
+  if(!drawer||window.innerWidth>700)return;
+  const t=getTarget(currentDay);
+  if(G.attempts.length===0){drawer.classList.remove('att-has');return;}
+  drawer.classList.add('att-has');
+  const body=document.getElementById('att-drawer-body');
+  body.innerHTML='';
+  for(const w of G.attempts){
+    const row=document.createElement('div');row.className='mob-att-row';
+    for(let i=0;i<t.length;i++){
+      const cell=document.createElement('div');
+      cell.className='mob-att-cell'+(w[i]===t[i]?' correct':'');
+      cell.textContent=w[i]||'';row.appendChild(cell);
+    }
+    body.appendChild(row);
+  }
 }
 
 function renderAttempts(){
@@ -1821,6 +2016,7 @@ function render(prevRev=null){
   }
   // Attempts
   renderAttempts();
+  renderMobileDrawer();
   // Teclado embutido
   buildKb();
   requestAnimationFrame(fitKbWideKeys);
@@ -2346,10 +2542,16 @@ document.getElementById('btn-alpha-close').addEventListener('click',()=>closeOv(
 document.getElementById('btn-hint-close').addEventListener('click',()=>closeOv('hint-ov'));
 document.getElementById('btn-cal').addEventListener('click',showCalendar);
 document.getElementById('btn-stats').addEventListener('click',showStats);
+document.getElementById('btn-modes').addEventListener('click',()=>document.getElementById('modes-ov').classList.add('show'));
+document.getElementById('btn-modes-close').addEventListener('click',()=>closeOv('modes-ov'));
+document.getElementById('mode-daily').addEventListener('click',()=>closeOv('modes-ov'));
 document.getElementById('btn-share').addEventListener('click',share);
 document.getElementById('btn-mobile-share').addEventListener('click',share);
 document.getElementById('btn-end-close').addEventListener('click',()=>closeOv('end-ov'));
 document.getElementById('btn-stats-close').addEventListener('click',()=>closeOv('stats-ov'));
+document.getElementById('att-drawer-handle').addEventListener('click',()=>{
+  document.getElementById('att-drawer').classList.toggle('att-open');
+});
 document.getElementById('hard-toggle-input').addEventListener('change', function(){
   const tryingToActivate = this.checked;
   // Não pode ATIVAR depois de começar, mas pode DESATIVAR a qualquer momento
