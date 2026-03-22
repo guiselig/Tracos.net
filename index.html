@@ -508,7 +508,8 @@ main[data-letters="7"] {
   z-index: 500; opacity: 0; pointer-events: none; transition: opacity .2s; padding: 16px;
 }
 .ov.show { opacity: 1; pointer-events: all; }
-#stats-ov { align-items: flex-start; padding-top: 24px; }
+#stats-ov { align-items: flex-start; padding-top: clamp(52px, 8dvh, 80px); }
+@media (max-width: 700px) { #stats-ov { padding-top: max(52px, env(safe-area-inset-top, 0px) + 52px); } }
 .modal {
   background: var(--surf); border: 1px solid var(--bdr2); border-radius: 16px;
   padding: clamp(22px,5vw,32px);
@@ -1438,7 +1439,7 @@ body.hard-active .logo-icon .sg-correct {
 
     <!-- Painel: Diário -->
     <div class="stats-card" id="pp-panel-daily">
-      <div class="modal-title">PASSAPORTE</div>
+      <div class="modal-title">DIÁRIO</div>
       <div class="passport" id="passport"></div>
       <div class="dist-sect">
         <div class="dist-title">DISTRIBUIÇÃO DE TENTATIVAS</div>
@@ -2560,56 +2561,87 @@ let shareBusy = false;
 function shareStreak(){
   if(shareBusy)return;
   shareBusy=true;
-  const CYAN='#00d4ff',W=1080,H=1920,MARGIN=80;
+
+  const W=1080,H=1920,M=96;
+  const DARK='#0b0c10',CYAN='#00d4ff',WHITE='#ffffff';
   const canvas=document.createElement('canvas');
   canvas.width=W;canvas.height=H;
   const ctx=canvas.getContext('2d');
-  // Fundo
-  const grad=ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,'#090f1a');grad.addColorStop(1,'#0b0c10');
-  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
-  const rg=ctx.createRadialGradient(W/2,H*0.42,0,W/2,H*0.42,680);
-  rg.addColorStop(0,'rgba(0,212,255,0.07)');rg.addColorStop(1,'rgba(0,212,255,0)');
-  ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
-  // Helpers
-  function rr(x,y,w,h,r,fill,stroke,sw){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=sw||2;ctx.stroke();}}
-  function line(y){ctx.strokeStyle='rgba(0,212,255,0.18)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(MARGIN,y);ctx.lineTo(W-MARGIN,y);ctx.stroke();}
-  // Logo
-  ctx.fillStyle='#ffffff';ctx.font='bold 60px Outfit,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('TRAÇOS',W/2,148);
-  ctx.fillStyle=CYAN;ctx.font='24px Outfit,sans-serif';
-  ctx.fillText('MODO INFINITO',W/2,208);
-  line(256);
-  // Streak grande — sempre usa infLastStreak (palavras acertadas antes de perder)
+
+  // ── Dados ──
   const streak=infLastStreak;
-  ctx.fillStyle=CYAN;ctx.font=`bold ${streak>=100?220:260}px Outfit,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(String(streak),W/2,H*0.40);
-  ctx.fillStyle='#ffffff';ctx.font='bold 56px Outfit,sans-serif';
-  ctx.fillText('PALAVRAS ACERTADAS',W/2,H*0.40+160);
-  ctx.fillStyle='rgba(0,212,255,0.6)';ctx.font='30px Outfit,sans-serif';
-  ctx.fillText(streak===1?'1 PALAVRA EM SEQUÊNCIA':`${streak} PALAVRAS EM SEQUÊNCIA`,W/2,H*0.40+224);
-  line(H*0.62);
-  // Cards de stats
-  const s=st(),iP=s.infPlayed||0,iW=s.infWins||0,iBest=s.infBest||0;
+  const s=st();
+  const iBest=s.infBest||0;
+  const iP=s.infPlayed||0,iW=s.infWins||0;
   const iWr=iP?Math.round(iW/iP*100):0;
-  const stats=[{v:String(iP),l:'JOGOS'},{v:`${iWr}%`,l:'DE VITÓRIA'},{v:String(iBest),l:'MELHOR'}];
-  const bW=280,bH=190,bG=24,totalBW=stats.length*bW+(stats.length-1)*bG;
-  const bStartX=W/2-totalBW/2,bY=H*0.66;
-  for(let i=0;i<stats.length;i++){
-    const bx=bStartX+i*(bW+bG);
-    rr(bx,bY,bW,bH,18,'rgba(0,212,255,0.06)','rgba(0,212,255,0.22)',2);
-    ctx.fillStyle='#ffffff';ctx.font='bold 56px Outfit,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(stats[i].v,bx+bW/2,bY+bH/2-16);
-    ctx.fillStyle='rgba(255,255,255,0.42)';ctx.font='20px Outfit,sans-serif';
-    ctx.fillText(stats[i].l,bx+bW/2,bY+bH/2+34);
+  const isRecord=(streak>0&&streak>=iBest);
+
+  // ── Fundo escuro sólido ──
+  ctx.fillStyle=DARK;ctx.fillRect(0,0,W,H);
+
+  // ── Borda fina ao redor de toda a imagem (moldura) ──
+  ctx.strokeStyle='rgba(0,212,255,0.20)';ctx.lineWidth=3;
+  ctx.strokeRect(M/2,M/2,W-M,H-M);
+
+  // ── Helpers ──
+  function txt(text,x,y,font,color,align){
+    ctx.font=font;ctx.fillStyle=color;
+    ctx.textAlign=align||'center';ctx.textBaseline='middle';
+    ctx.fillText(text,x,y);
   }
-  // Footer
-  const fy=H-220;line(fy);
-  ctx.fillStyle='rgba(255,255,255,0.38)';ctx.font='24px Outfit,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('Jogue em',W/2,fy+54);
-  ctx.fillStyle='#ffffff';ctx.font='bold 50px Outfit,sans-serif';
-  ctx.fillText('tracos.hoje',W/2,fy+118);
-  // Share
+  function hline(y){
+    ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(M,y);ctx.lineTo(W-M,y);ctx.stroke();
+  }
+
+  // ── TOPO: branding simples ──
+  txt('TRAÇOS',W/2,148,'700 52px Outfit,sans-serif',WHITE);
+  txt('MODO INFINITO',W/2,210,'500 28px Outfit,sans-serif','rgba(0,212,255,0.7)');
+
+  hline(270);
+
+  // ── CENTRO: o número é o único protagonista ──
+  // Se for recorde, fundo sutil dourado
+  if(isRecord){
+    const g=ctx.createRadialGradient(W/2,H*0.46,0,W/2,H*0.46,500);
+    g.addColorStop(0,'rgba(232,176,48,0.10)');g.addColorStop(1,'rgba(232,176,48,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  }
+
+  // Número
+  const numSize=streak>=100?320:streak>=10?420:520;
+  const numY=H*0.46;
+  ctx.font=`900 ${numSize}px Outfit,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  // Sombra suave
+  ctx.shadowColor=isRecord?'rgba(232,176,48,0.5)':'rgba(0,212,255,0.4)';
+  ctx.shadowBlur=120;
+  ctx.fillStyle=isRecord?'#e8c030':CYAN;
+  ctx.fillText(String(streak),W/2,numY);
+  ctx.shadowBlur=0;
+
+  // Label abaixo do número: frase única e direta
+  const streakLabel=streak===0?'SEM SEQUÊNCIA':streak===1?'EM SEQUÊNCIA':'EM SEQUÊNCIA';
+  txt(streakLabel,W/2,numY+numSize*0.52+16,'700 52px Outfit,sans-serif',WHITE);
+
+  // Recorde ou não
+  if(isRecord&&streak>0){
+    txt('🏆  NOVO RECORDE PESSOAL',W/2,numY+numSize*0.52+100,'700 34px Outfit,sans-serif','rgba(232,176,48,0.9)');
+  } else if(iBest>0&&streak<iBest){
+    txt(`melhor: ${iBest}`,W/2,numY+numSize*0.52+100,'500 34px Outfit,sans-serif','rgba(255,255,255,0.28)');
+  }
+
+  hline(H*0.76);
+
+  // ── RODAPÉ: só % de vitória, que é a única info diferente ──
+  if(iP>0){
+    txt(`${iWr}% de vitória em ${iP} ${iP===1?'jogo':'jogos'}`,W/2,H*0.76+80,'500 32px Outfit,sans-serif','rgba(255,255,255,0.35)');
+  }
+
+  hline(H-200);
+  txt('tracos.hoje',W/2,H-130,'700 44px Outfit,sans-serif','rgba(255,255,255,0.55)');
+
+  // ── Share ──
   canvas.toBlob(blob=>{
     if(!blob){shareBusy=false;toast('Erro ao gerar imagem');return;}
     const file=new File([blob],'tracos-sequencia.png',{type:'image/png'});
@@ -3058,15 +3090,14 @@ async function fetchRealTime() {
 // ── Inicialização Instantânea ──
 
 // ── URL routing (path-based) ──
-// tracos.net/          → redireciona para /diario
-// tracos.net/diario    → modo diário, hoje
-// tracos.net/diario/2026-03-10 → modo diário, dia de arquivo
-// tracos.net/infinito  → modo infinito
-// tracos.net/dupla     → dupla (em breve)
-// tracos.net/quadra    → quadra (em breve)
+// tracos.net/              → diário, hoje
+// tracos.net/2026-03-10   → diário, dia de arquivo
+// tracos.net/infinito      → modo infinito
+// tracos.net/dupla         → dupla (em breve)
+// tracos.net/quadra        → quadra (em breve)
 
-const MODE_PATHS = {daily:'diario', inf:'infinito', dupla:'dupla', quadra:'quadra'};
-const PATH_MODES = {diario:'daily', infinito:'inf', dupla:'dupla', quadra:'quadra'};
+const MODE_PATHS = {inf:'infinito', dupla:'dupla', quadra:'quadra'};
+const PATH_MODES = {infinito:'inf', dupla:'dupla', quadra:'quadra'};
 
 function dayNumToDateStr(dayN){
   const d=new Date(ORIGIN.getTime()+dayN*86400000);
@@ -3084,25 +3115,33 @@ function dateStrToDayNum(str){
 }
 
 function parsePath(){
-  // Suporte legado: se vier hash antigo (#2026-03-10), converte para path
+  // Suporte legado: hash antigo (#2026-03-10)
   if(window.location.hash&&/^#\d{4}-\d{2}-\d{2}$/.test(window.location.hash)){
     const dn=dateStrToDayNum(window.location.hash.slice(1));
     if(dn!==null)return {mode:'daily', day:dn, legacy:true};
   }
   const parts=window.location.pathname.replace(/^\//, '').split('/').filter(Boolean);
-  const modeStr=parts[0]||'';
-  const mode=PATH_MODES[modeStr]||'daily';
-  const day=parts[1]?dateStrToDayNum(parts[1]):null;
-  return {mode, day, legacy:false};
+  if(parts.length===0) return {mode:'daily', day:null, legacy:false}; // raiz = diário
+  const first=parts[0];
+  // Modo explícito (/infinito, /dupla, /quadra)
+  if(PATH_MODES[first]) return {mode:PATH_MODES[first], day:null, legacy:false};
+  // Data diretamente na raiz (/2026-03-10)
+  const dn=dateStrToDayNum(first);
+  if(dn!==null) return {mode:'daily', day:dn, legacy:false};
+  // Suporte ao formato legado /diario e /diario/2026-03-10
+  if(first==='diario'){
+    const dn2=parts[1]?dateStrToDayNum(parts[1]):null;
+    return {mode:'daily', day:dn2, legacy:true};
+  }
+  return {mode:'daily', day:null, legacy:false};
 }
 
 function setPath(mode, dayN, replace){
-  const modePath=MODE_PATHS[mode]||'diario';
   let path;
   if(mode==='daily'){
-    path=(dayN!==undefined&&dayN!==null&&dayN!==TODAY)?'/diario/'+dayNumToDateStr(dayN):'/diario';
+    path=(dayN!==undefined&&dayN!==null&&dayN!==TODAY)?'/'+dayNumToDateStr(dayN):'/';
   }else{
-    path='/'+modePath;
+    path='/'+(MODE_PATHS[mode]||mode);
   }
   const state={mode, day:dayN??null};
   if(replace)history.replaceState(state,'',path);
@@ -3129,14 +3168,8 @@ function bootInstant() {
 
   const {mode: urlMode, day: urlDay, legacy} = parsePath();
 
-  // Raiz / → redireciona silenciosamente para /diario
-  const rawPath = window.location.pathname;
-  if(rawPath==='/'||rawPath===''){
-    history.replaceState({mode:'daily',day:null},'','/diario');
-  } else if(legacy){
-    // Hash legado → converte para path limpo
-    setPath('daily', urlDay, true);
-  }
+  // URLs legadas (/diario, /diario/data) → converte para novo formato
+  if(legacy) setPath(urlMode, urlDay??undefined, true);
 
   if(urlMode==='inf'){
     // Carrega infinito direto da URL
