@@ -990,6 +990,15 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   align-self: center;
 }
 #hard-badge.visible { display: flex; }
+#hard-badge.pop {
+  animation: hardBadgePop .5s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes hardBadgePop {
+  0%   { transform: scale(0.4); opacity: 0; }
+  60%  { transform: scale(1.12); opacity: 1; }
+  80%  { transform: scale(0.96); }
+  100% { transform: scale(1);   opacity: 1; }
+}
 
 /* ── HARD MODE: tema visual ── */
 body.hard-active .glass-card {
@@ -1729,7 +1738,15 @@ function syncHardMode(){
 }
 function updateHardBadge(){
   const badge=document.getElementById('hard-badge');
-  if(badge) badge.classList.toggle('visible', !!hardMode);
+  if(badge){
+    const wasVisible=badge.classList.contains('visible');
+    badge.classList.toggle('visible', !!hardMode);
+    if(hardMode && !wasVisible){
+      badge.classList.remove('pop');
+      void badge.offsetWidth; // força reflow para reiniciar animação
+      badge.classList.add('pop');
+    }
+  }
   document.body.classList.toggle('hard-active', !!hardMode);
 }
 function showHardTutorial(){ document.getElementById('hard-tut-ov').classList.add('show'); }
@@ -3125,7 +3142,7 @@ document.getElementById('hard-toggle-input').addEventListener('change', function
       if(guessedAfterOff){
         // Já tentou sem hard mode — adia para próxima palavra
         infPendingHard = true;
-        toast('🔥 MODO DIFÍCIL — ATIVO NA PRÓXIMA PALAVRA');
+        toast('🔥 MODO DIFÍCIL — DISPONÍVEL NA PRÓXIMA PALAVRA');
       } else {
         // Não tentou ainda — aplica agora
         infPendingHard = null; infHardOffAt = -1;
@@ -3139,14 +3156,14 @@ document.getElementById('hard-toggle-input').addEventListener('change', function
       infHardOffAt = G.attempts.length;
       hardModes['inf'] = false; saveHardMode();
       hardMode = false; updateHardBadge();
-      toast('MODO NORMAL — DISPONÍVEL NESTA PALAVRA');
+      toast('MODO NORMAL ATIVO');
     }
   } else {
     // Sem tentativas ou diário: aplica imediatamente, limpa flags
     infPendingHard = null; infHardOffAt = -1;
     hardModes[mode] = this.checked; saveHardMode();
     hardMode = this.checked; updateHardBadge();
-    if(infiniteMode && this.checked) toast('🔥 MODO DIFÍCIL — DISPONÍVEL NESTA PALAVRA');
+    if(infiniteMode && this.checked) toast('🔥 MODO DIFÍCIL ATIVO');
     else toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
   }
   updateHardToggleSub();
