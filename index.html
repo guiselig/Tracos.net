@@ -2339,38 +2339,34 @@ function render(prevRev=null){
   const kb = document.getElementById('kb-wrap');
   const mobShare = document.getElementById('mobile-share-container');
 
-  const cellsRow = document.getElementById('cells-row');
-  const progEl   = document.getElementById('prog');
   if (window.innerWidth <= 700) {
     if (!playing) {
-      // Esconde teclado e células — mostra botão de compartilhar no lugar
-      if (kb)       kb.style.display      = 'none';
-      if (cellsRow) cellsRow.style.display = 'none';
-      if (progEl)   progEl.style.display  = 'none';
-      if (mobShare) {
-        const mobShareStreak = document.getElementById('btn-mobile-share-streak');
-        const mobShareNormal = document.getElementById('btn-mobile-share');
-        if (infiniteMode && G.status === 'lost') {
-          if (mobShareStreak) mobShareStreak.style.display = '';
-          if (mobShareNormal) mobShareNormal.style.display = 'none';
-        } else if (infiniteMode) {
-          if (mobShareStreak) mobShareStreak.style.display = 'none';
-          if (mobShareNormal) mobShareNormal.style.display = 'none';
+      if (kb && mobShare) {
+        kb.style.display = 'none';
+        const mobShareStreak=document.getElementById('btn-mobile-share-streak');
+        const mobShareNormal=document.getElementById('btn-mobile-share');
+        if(infiniteMode && G.status==='lost'){
+          if(mobShareStreak)mobShareStreak.style.display='';
+          if(mobShareNormal)mobShareNormal.style.display='none';
+          if(mobShareNormal)mobShareNormal.style.paddingTop='20px';
+        } else if(infiniteMode){
+          if(mobShareStreak)mobShareStreak.style.display='none';
+          if(mobShareNormal)mobShareNormal.style.display='none';
         } else {
-          if (mobShareStreak) mobShareStreak.style.display = 'none';
-          if (mobShareNormal) { mobShareNormal.style.display = ''; mobShareNormal.style.paddingTop = ''; }
+          if(mobShareStreak)mobShareStreak.style.display='none';
+          if(mobShareNormal){mobShareNormal.style.display='';mobShareNormal.style.paddingTop='';}
         }
-        mobShare.style.height  = '';
-        mobShare.style.opacity = '1';
+        mobShare.style.height = '';
         mobShare.style.display = 'flex';
+        mobShare.classList.remove('animate-pop-delay');
+        void mobShare.offsetWidth;
+        mobShare.classList.add('animate-pop-delay');
       }
     } else {
-      if (kb)       kb.style.display      = '';
-      if (cellsRow) cellsRow.style.display = '';
-      if (progEl)   progEl.style.display  = '';
+      if (kb) kb.style.display = '';
       if (mobShare) {
         mobShare.style.display = 'none';
-        mobShare.style.opacity = '0';
+        mobShare.classList.remove('animate-pop-delay');
       }
     }
   }
