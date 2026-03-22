@@ -2440,11 +2440,10 @@ function updateHardToggleSub(){
     const isDisabled=!isOn&&!canActivate;
     row.classList.toggle('hard-toggle-disabled',isDisabled);
     if(canActivate) sub.textContent='ATIVE ANTES DE COMEÇAR';
-    else if(isOn) sub.textContent='MODO ATIVO — PODE DESATIVAR';
     else sub.textContent='';
   } else {
     row.classList.remove('hard-toggle-disabled');
-    sub.textContent=isOn?'MODO ATIVO — PODE DESATIVAR':'';
+    sub.textContent='';
   }
 }
 
@@ -3114,8 +3113,8 @@ document.getElementById('hard-toggle-input').addEventListener('change', function
   // No infinito com palavra em andamento, aplica só na próxima palavra
   const midInfWord = infiniteMode && G.attempts.length > 0;
   if(!midInfWord){ hardMode = this.checked; updateHardBadge(); }
-  if(infiniteMode && this.checked && midInfWord) toast('🔥 MODO DIFÍCIL — ATIVO NA PRÓXIMA PALAVRA');
-  else if(infiniteMode && !this.checked && midInfWord) toast('MODO NORMAL — ATIVO NA PRÓXIMA PALAVRA');
+  if(infiniteMode && this.checked && midInfWord) toast('🔥 MODO DIFÍCIL — DISPONÍVEL NA PRÓXIMA PALAVRA');
+  else if(infiniteMode && !this.checked && midInfWord) toast('MODO NORMAL — DISPONÍVEL NA PRÓXIMA PALAVRA');
   else toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
   updateHardToggleSub();
   if(this.checked && !st().hardTutSeen) setTimeout(showHardTutorial, 350);
