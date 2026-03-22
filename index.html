@@ -993,9 +993,16 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
 #hard-badge.pop {
   animation: hardBadgePop .35s ease-out forwards;
 }
+#hard-badge.pop-out {
+  animation: hardBadgeOut .3s ease-in forwards;
+}
 @keyframes hardBadgePop {
   0%   { transform: scale(0.5); opacity: 0; }
   100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes hardBadgeOut {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(0.5); opacity: 0; }
 }
 
 /* ── HARD MODE: tema visual ── */
@@ -1738,11 +1745,16 @@ function updateHardBadge(){
   const badge=document.getElementById('hard-badge');
   if(badge){
     const wasVisible=badge.classList.contains('visible');
-    badge.classList.toggle('visible', !!hardMode);
     if(hardMode && !wasVisible){
-      badge.classList.remove('pop');
-      void badge.offsetWidth; // força reflow para reiniciar animação
+      badge.classList.remove('pop','pop-out');
+      badge.classList.add('visible');
+      void badge.offsetWidth;
       badge.classList.add('pop');
+    } else if(!hardMode && wasVisible){
+      badge.classList.remove('pop','pop-out');
+      void badge.offsetWidth;
+      badge.classList.add('pop-out');
+      setTimeout(()=>{ badge.classList.remove('visible','pop-out'); }, 300);
     }
   }
   document.body.classList.toggle('hard-active', !!hardMode);
