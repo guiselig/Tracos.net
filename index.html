@@ -588,6 +588,26 @@ main[data-letters="7"] {
 .btn-reveal { background:none; border:1px solid var(--bdr2); color:var(--txt-mid); font-family:var(--font-ui); font-size:12px; font-weight:700; letter-spacing:2px; padding:7px 14px; border-radius:6px; cursor:pointer; transition:all .15s; flex-shrink:0; }
 .btn-reveal:hover { border-color:var(--acc); color:var(--acc); }
 
+/* ── CORINGAS INFINITO ── */
+.inf-lf-modal { background:var(--surf); border:1px solid rgba(0,212,255,.28); border-radius:16px; padding:clamp(18px,4vw,28px); width:100%; max-width:480px; display:flex; flex-direction:column; gap:10px; transform:scale(.94); transition:transform .2s; }
+.ov.show .inf-lf-modal { transform:scale(1); }
+.inf-lf-title { font-family:var(--font-hd); font-weight:700; font-size:clamp(13px,2vw,15px); color:#00d4ff; letter-spacing:3px; text-align:center; margin-bottom:2px; }
+.inf-lf-sub { font-size:11px; color:var(--txt-dim); letter-spacing:1.5px; text-align:center; margin-top:-4px; }
+.lf-item { display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:var(--r); border:1px solid var(--bdr); background:var(--surf2); transition:all .2s; }
+.lf-item.lf-used { opacity:.32; }
+.lf-icon { font-size:18px; width:24px; text-align:center; flex-shrink:0; }
+.lf-body { flex:1; min-width:0; }
+.lf-name { font-family:var(--font-hd); font-size:10px; font-weight:700; letter-spacing:2px; color:#00d4ff; }
+.lf-desc { font-size:12px; color:var(--txt-dim); margin-top:2px; line-height:1.4; }
+.lf-item.lf-used .lf-name { color:var(--txt-dim); }
+.btn-use-lf { background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.4); color:#00d4ff; font-family:var(--font-hd); font-size:9px; font-weight:700; letter-spacing:1.5px; padding:6px 11px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:background .15s; }
+.btn-use-lf:hover { background:rgba(0,212,255,.22); }
+/* Pular */
+.btn-skip { display:none; background:rgba(0,212,255,.06); border:1px solid rgba(0,212,255,.28); color:#00d4ff; font-family:var(--font-hd); font-size:10px; font-weight:700; letter-spacing:2px; padding:9px; border-radius:var(--r); cursor:pointer; width:100%; transition:all .15s; margin-top:6px; }
+.btn-skip:hover:not(:disabled) { background:rgba(0,212,255,.14); }
+.btn-skip:disabled { opacity:.28; cursor:not-allowed; }
+body.infinite-active .btn-skip { display:block; }
+
 /* ── MODO INFINITO ── */
 .mode-card-badge.badge-inf { background:rgba(0,212,255,.10); color:#00d4ff; border:1px solid rgba(0,212,255,.30); }
 body.infinite-active .daily-badge { color:#00d4ff; }
@@ -1315,6 +1335,7 @@ body.hard-active .logo-icon .sg-correct {
         <div class="prog" id="prog"></div>
         <div class="cells-row" id="cells-row"></div>
         <button id="btn-ok" class="btn-ok">TENTAR</button>
+        <button id="btn-skip" class="btn-skip">CORINGA — PULAR</button>
 
         <div id="attempts-section">
           <span class="att-title" id="att-label" style="display:none">TENTATIVAS</span>
@@ -1622,6 +1643,16 @@ body.hard-active .logo-icon .sg-correct {
   </div>
 </div>
 
+<!-- Modal: coringas infinito -->
+<div class="ov" id="inf-lf-ov">
+  <div class="inf-lf-modal">
+    <div class="inf-lf-title">CORINGAS</div>
+    <div class="inf-lf-sub" id="inf-lf-sub">5 POR SEQUÊNCIA</div>
+    <div id="inf-lf-list"></div>
+    <button class="btn-s" id="btn-inf-lf-close">FECHAR</button>
+  </div>
+</div>
+
 <!-- Modal: calendário -->
 <div class="ov" id="cal-ov">
   <div class="cal-modal">
@@ -1732,6 +1763,15 @@ let infGold       = 0;
 let infHardPlayed = 0;
 let infHardWins   = 0;
 let infLastStreak = 0;
+let infHintsUsed  = [false,false,false,false,false];
+let infSkipUsed   = false;
+let infEliminated = [];
+let infRevealPos  = -1;
+
+function resetInfLifelines(){
+  infHintsUsed=[false,false,false,false,false];
+  infSkipUsed=false;infEliminated=[];infRevealPos=-1;
+}
 
 function pickNextInfiniteWord(){
   const pool=DAILY_POOL.filter(w=>/^[A-Z]{5,7}$/.test(w));
@@ -1740,12 +1780,13 @@ function pickNextInfiniteWord(){
   do{w=pool[Math.floor(Math.random()*pool.length)];tries++;}while(w===infiniteWord&&pool.length>1&&tries<15);
   infiniteWord=w;
   G={attempts:[],status:'playing'};
+  infEliminated=[];infRevealPos=-1;
   recompute();resetCells();
 }
 
 function startInfinite(){
   closeOv('modes-ov');
-  if(!infiniteMode){const s=st();infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;}
+  if(!infiniteMode){const s=st();infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;resetInfLifelines();}
   infiniteMode=true;
   syncHardMode();
   document.body.classList.add('infinite-active');
@@ -1899,6 +1940,8 @@ function buildKb(){
     ['A','S','D','F','G','H','J','K','L'],
     ['⌫','Z','X','C','V','B','N','M','ENTER']
   ];
+  const states=getLetterStates();
+  if(infiniteMode)for(const c of infEliminated)if(!states[c])states[c]='kb-miss';
   kb.innerHTML='';
   for(const row of rows){
     const rowEl=document.createElement('div');
@@ -1909,6 +1952,7 @@ function buildKb(){
       if(key==='⌫'){btn.classList.add('kb-wide','kb-bksp');btn.textContent='⌫';}
       else if(key==='ENTER'){btn.classList.add('kb-wide');btn.textContent='ENTER';}
       else{
+        if(states[key])btn.classList.add(states[key]);
         btn.innerHTML=makeTutSVG(key,'correct',10,15);
       }
       btn.addEventListener('pointerdown',e=>{
@@ -1978,7 +2022,7 @@ function saveDay(){
     if(G.status!=='playing'){
       infPlayed++;
       const won=G.status==='won';
-      if(won){infStreak++;infWins++;if(infStreak>infBest)infBest=infStreak;if(G.attempts.length===1)infGold++;}else{infLastStreak=infStreak;infStreak=0;}
+      if(won){infStreak++;infWins++;if(infStreak>infBest)infBest=infStreak;if(G.attempts.length===1)infGold++;}else{infLastStreak=infStreak;infStreak=0;resetInfLifelines();}
       if(hardMode){infHardPlayed++;if(won)infHardWins++;}
       const s=st();
       s.infStreak=infStreak;s.infPlayed=infPlayed;s.infWins=infWins;s.infBest=infBest;s.infGold=infGold;s.infHardPlayed=infHardPlayed;s.infHardWins=infHardWins;s.infLastStreak=infLastStreak;
@@ -2075,6 +2119,7 @@ function getTarget(day){
 function recompute(){
   const t=getTarget(currentDay),len=t.length;
   revSegs=Array.from({length:len},()=>new Set());corrPos=Array(len).fill(false);
+  if(infiniteMode&&infRevealPos>=0&&infRevealPos<len)corrPos[infRevealPos]=true;
   // No modo difícil: acumula corrPos de todas as tentativas,
   // mas revSegs mostra apenas a última tentativa
   const attList = hardMode && G.attempts.length > 0
@@ -2230,6 +2275,12 @@ function render(prevRev=null){
   }
   // Cells
   buildCells();
+  // Skip button state
+  const btnSkip=document.getElementById('btn-skip');
+  if(btnSkip){
+    btnSkip.disabled=infSkipUsed||!playing;
+    btnSkip.textContent=infSkipUsed?'CORINGA PULAR (USADO)':'CORINGA — PULAR';
+  }
   // Lógica inteligente do botão principal
   const btnOk = document.getElementById('btn-ok');
   if (playing) {
@@ -2446,6 +2497,62 @@ function renderHintList(){
   }
 }
 function showHint(){renderHintList();document.getElementById('hint-ov').classList.add('show');}
+
+// ── Coringas (Infinito) ──
+const INF_LF=[
+  {icon:'🔢',name:'LETRAS ÚNICAS',fn:()=>{const t=getTarget(currentDay);const dc=new Set(t.split('')).size;return`A palavra tem <strong>${dc}</strong> letra${dc===1?'':'s'} distinta${dc===1?'':'s'}`;}},
+  {icon:'🔤',name:'VOGAIS',fn:()=>{const t=getTarget(currentDay),v='AEIOUÁÉÍÓÚÃÂÊÔÀ';const vs=[...new Set(t.split('').filter(c=>v.includes(c)))].sort().join(', ');return vs?`Vogais presentes: <strong>${vs}</strong>`:'Sem vogais';}},
+  {icon:'🔡',name:'PRIMEIRA LETRA',fn:()=>{const t=getTarget(currentDay);return`Começa com <strong>${t[0]}</strong>`;}},
+  {icon:'❌',name:'ELIMINAR LETRAS',fn:()=>`Eliminou: <strong>${infEliminated.join(', ')}</strong>`},
+  {icon:'💡',name:'REVELAR LETRA',fn:()=>{const t=getTarget(currentDay);return infRevealPos>=0?`Posição ${infRevealPos+1}: <strong>${t[infRevealPos]}</strong>`:'Letra revelada nas células';}}
+];
+function useInfHint(i){
+  if(infHintsUsed[i])return;
+  if(G.status!=='playing'){toast('TERMINE A PALAVRA ATUAL PRIMEIRO');return;}
+  const t=getTarget(currentDay);
+  if(i===0||i===1||i===2){
+    // Informativos — só marca como usado e mostra na modal
+  } else if(i===3){
+    const v='AEIOUÁÉÍÓÚÃÂÊÔÀ';
+    const inWord=new Set(t.split(''));
+    const states=getLetterStates();
+    const available='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter(c=>!inWord.has(c)&&!states[c]&&!infEliminated.includes(c));
+    const pick=[];const pool=[...available];
+    while(pick.length<5&&pool.length){const idx=Math.floor(Math.random()*pool.length);pick.push(pool.splice(idx,1)[0]);}
+    infEliminated.push(...pick);
+    buildKb();
+  } else if(i===4){
+    const avail=[];for(let j=0;j<t.length;j++)if(!corrPos[j])avail.push(j);
+    if(!avail.length){toast('TODAS AS LETRAS JÁ REVELADAS');return;}
+    infRevealPos=avail[Math.floor(Math.random()*avail.length)];
+    recompute();resetCells();render();
+  }
+  infHintsUsed[i]=true;
+  renderInfHints();
+}
+function renderInfHints(){
+  const list=document.getElementById('inf-lf-list');
+  const sub=document.getElementById('inf-lf-sub');
+  if(!list)return;
+  const used=infHintsUsed.filter(Boolean).length;
+  if(sub)sub.textContent=`${5-used} DE 5 DISPONÍVEIS`;
+  list.innerHTML='';
+  INF_LF.forEach((lf,i)=>{
+    const isUsed=infHintsUsed[i];
+    const item=document.createElement('div');
+    item.className='lf-item'+(isUsed?' lf-used':'');
+    const desc=isUsed?lf.fn():'Disponível para usar';
+    item.innerHTML=`<div class="lf-icon">${lf.icon}</div><div class="lf-body"><div class="lf-name">${lf.name}</div><div class="lf-desc">${desc}</div></div>${isUsed?'':`<button class="btn-use-lf" onclick="useInfHint(${i})">USAR</button>`}`;
+    list.appendChild(item);
+  });
+}
+function showInfHints(){renderInfHints();document.getElementById('inf-lf-ov').classList.add('show');}
+function useSkip(){
+  if(infSkipUsed||!infiniteMode||G.status!=='playing')return;
+  infSkipUsed=true;
+  pickNextInfiniteWord();render();
+}
+
 // ── Tutorial ──
 function makeTutSVG(ch,mode,w=52,h=78){
   const ts=new Set(segsOf(ch));let p='';
@@ -2944,11 +3051,14 @@ document.getElementById('btn-cheat-close').addEventListener('click',()=>closeOv(
 document.getElementById('btn-tut').addEventListener('click',showTutorial);
 document.getElementById('btn-alpha').addEventListener('click',showAlpha);
 document.getElementById('btn-hint').addEventListener('click',()=>{
+  if(infiniteMode){showInfHints();return;}
   if(hardMode){ toast('SEM DICAS NO MODO DIFÍCIL 🔥'); return; }
   showHint();
 });
+document.getElementById('btn-skip').addEventListener('click',useSkip);
 document.getElementById('btn-alpha-close').addEventListener('click',()=>closeOv('alpha-ov'));
 document.getElementById('btn-hint-close').addEventListener('click',()=>closeOv('hint-ov'));
+document.getElementById('btn-inf-lf-close').addEventListener('click',()=>closeOv('inf-lf-ov'));
 document.getElementById('btn-cal').addEventListener('click',showCalendar);
 document.getElementById('btn-stats').addEventListener('click',showStats);
 document.getElementById('btn-modes').addEventListener('click',()=>{ updateHardToggleSub(); document.getElementById('modes-ov').classList.add('show'); });
@@ -2986,7 +3096,7 @@ document.getElementById('tut-next').addEventListener('click',()=>{if(tutSlide<TU
 document.getElementById('tut-prev').addEventListener('click',()=>{if(tutSlide>0){tutSlide--;updateTut();}});
 document.getElementById('cal-prev').addEventListener('click',()=>{calM--;if(calM<0){calM=11;calY--;}renderCal();});
 document.getElementById('cal-next').addEventListener('click',()=>{calM++;if(calM>11){calM=0;calY++;}renderCal();});
-['end-ov','stats-ov','tut-ov','cal-ov','alpha-ov','hint-ov','cheat-ov','modes-ov','hard-tut-ov','inf-tut-ov'].forEach(id=>document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeOv(id);}));
+['end-ov','stats-ov','tut-ov','cal-ov','alpha-ov','hint-ov','cheat-ov','modes-ov','hard-tut-ov','inf-tut-ov','inf-lf-ov'].forEach(id=>document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeOv(id);}));
 document.getElementById('pp-tab-daily').addEventListener('click',()=>switchPassportTab('daily'));
 document.getElementById('pp-tab-inf').addEventListener('click',()=>switchPassportTab('inf'));
 document.getElementById('btn-hard-tut').addEventListener('click',e=>{e.stopPropagation();showHardTutorial();});
@@ -3205,7 +3315,7 @@ function bootInstant() {
 
   if(urlMode==='inf'){
     // Carrega infinito direto da URL
-    if(!infiniteMode){infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;}
+    if(!infiniteMode){infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;resetInfLifelines();}
     infiniteMode=true;
     syncHardMode();
     document.body.classList.add('infinite-active');
