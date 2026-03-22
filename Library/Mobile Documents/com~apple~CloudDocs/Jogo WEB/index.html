@@ -3140,12 +3140,12 @@ async function fetchRealTime() {
 
 // ── Inicialização Instantânea ──
 
-// ── URL routing (path-based) ──
+// ── URL routing (hash-based) ──
 // tracos.net/              → diário, hoje
-// tracos.net/2026-03-10   → diário, dia de arquivo
-// tracos.net/infinito      → modo infinito
-// tracos.net/dupla         → dupla (em breve)
-// tracos.net/quadra        → quadra (em breve)
+// tracos.net/#2026-03-10  → diário, dia de arquivo
+// tracos.net/#infinito    → modo infinito
+// tracos.net/#dupla       → dupla (em breve)
+// tracos.net/#quadra      → quadra (em breve)
 
 const MODE_PATHS = {inf:'infinito', dupla:'dupla', quadra:'quadra'};
 const PATH_MODES = {infinito:'inf', dupla:'dupla', quadra:'quadra'};
@@ -3166,40 +3166,29 @@ function dateStrToDayNum(str){
 }
 
 function parsePath(){
-  // Suporte legado: hash antigo (#2026-03-10)
-  if(window.location.hash&&/^#\d{4}-\d{2}-\d{2}$/.test(window.location.hash)){
-    const dn=dateStrToDayNum(window.location.hash.slice(1));
-    if(dn!==null)return {mode:'daily', day:dn, legacy:true};
-  }
-  const parts=window.location.pathname.replace(/^\//, '').split('/').filter(Boolean);
-  if(parts.length===0) return {mode:'daily', day:null, legacy:false}; // raiz = diário
-  const first=parts[0];
-  // Modo explícito (/infinito, /dupla, /quadra)
-  if(PATH_MODES[first]) return {mode:PATH_MODES[first], day:null, legacy:false};
-  // Data diretamente na raiz (/2026-03-10)
-  const dn=dateStrToDayNum(first);
-  if(dn!==null) return {mode:'daily', day:dn, legacy:false};
-  // Suporte ao formato legado /diario e /diario/2026-03-10
-  if(first==='diario'){
-    const dn2=parts[1]?dateStrToDayNum(parts[1]):null;
-    return {mode:'daily', day:dn2, legacy:true};
-  }
-  return {mode:'daily', day:null, legacy:false};
+  const hash=window.location.hash.slice(1); // remove o #
+  if(!hash) return {mode:'daily', day:null};
+  // Data: #2026-03-10
+  const dn=dateStrToDayNum(hash);
+  if(dn!==null) return {mode:'daily', day:dn};
+  // Modo: #infinito, #dupla, #quadra
+  if(PATH_MODES[hash]) return {mode:PATH_MODES[hash], day:null};
+  return {mode:'daily', day:null};
 }
 
 function setPath(mode, dayN, replace){
-  let path;
+  let hash='';
   if(mode==='daily'){
-    path=(dayN!==undefined&&dayN!==null&&dayN!==TODAY)?'/'+dayNumToDateStr(dayN):'/';
+    hash=(dayN!==undefined&&dayN!==null&&dayN!==TODAY)?'#'+dayNumToDateStr(dayN):'';
   }else{
-    path='/'+(MODE_PATHS[mode]||mode);
+    hash='#'+(MODE_PATHS[mode]||mode);
   }
+  const url=hash||location.pathname;
   const state={mode, day:dayN??null};
-  if(replace)history.replaceState(state,'',path);
-  else history.pushState(state,'',path);
+  if(replace)history.replaceState(state,'',url);
+  else history.pushState(state,'',url);
 }
 
-// Alias para manter compatibilidade interna
 function setHash(dayN){ setPath('daily', dayN); }
 
 function bootInstant() {
@@ -3217,10 +3206,7 @@ function bootInstant() {
   TODAY = dayNum(realNow);
   currentDay = TODAY;
 
-  const {mode: urlMode, day: urlDay, legacy} = parsePath();
-
-  // URLs legadas (/diario, /diario/data) → converte para novo formato
-  if(legacy) setPath(urlMode, urlDay??undefined, true);
+  const {mode: urlMode, day: urlDay} = parsePath();
 
   if(urlMode==='inf'){
     // Carrega infinito direto da URL
@@ -3285,13 +3271,6 @@ function bootInstant() {
   });
 })();
 
-// 1. GitHub Pages SPA: restaura o path salvo pelo 404.html antes de iniciar
-(function(){
-  var p = sessionStorage.getItem('spa-path');
-  if(p){ sessionStorage.removeItem('spa-path'); history.replaceState(null, '', p); }
-})();
-
-// 2. Renderiza o jogo instantaneamente na tela
 bootInstant();
 
 // Botão voltar/avançar do browser
