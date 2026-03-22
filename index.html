@@ -3111,8 +3111,11 @@ document.getElementById('hard-toggle-input').addEventListener('change', function
   }
   hardModes[mode] = this.checked;
   saveHardMode();
-  hardMode = this.checked; updateHardBadge();
-  if(infiniteMode && this.checked) toast('🔥 MODO DIFÍCIL — ATIVO NA PRÓXIMA PALAVRA');
+  // No infinito com palavra em andamento, aplica só na próxima palavra
+  const midInfWord = infiniteMode && G.attempts.length > 0;
+  if(!midInfWord){ hardMode = this.checked; updateHardBadge(); }
+  if(infiniteMode && this.checked && midInfWord) toast('🔥 MODO DIFÍCIL — ATIVO NA PRÓXIMA PALAVRA');
+  else if(infiniteMode && !this.checked && midInfWord) toast('MODO NORMAL — ATIVO NA PRÓXIMA PALAVRA');
   else toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
   updateHardToggleSub();
   if(this.checked && !st().hardTutSeen) setTimeout(showHardTutorial, 350);
