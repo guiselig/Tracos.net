@@ -605,7 +605,7 @@ main[data-letters="7"] {
 .btn-use-lf { background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.4); color:#00d4ff; font-family:var(--font-hd); font-size:9px; font-weight:700; letter-spacing:1.5px; padding:6px 11px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:background .15s; }
 .btn-use-lf:hover { background:rgba(0,212,255,.22); }
 /* Pular */
-.btn-skip { display:none; background:rgba(0,212,255,.06); border:1px solid rgba(0,212,255,.28); color:#00d4ff; font-family:var(--font-hd); font-size:10px; font-weight:700; letter-spacing:2px; padding:9px; border-radius:var(--r); cursor:pointer; width:100%; transition:all .15s; margin-top:6px; }
+.btn-skip { display:none; background:rgba(0,212,255,.06); border:1px solid rgba(0,212,255,.28); color:#00d4ff; font-family:var(--font-hd); font-size:10px; font-weight:700; letter-spacing:2px; padding:9px; border-radius:var(--r); cursor:pointer; width:100%; transition:all .15s; margin-top:6px; margin-bottom:10px; }
 .btn-skip:hover:not(:disabled) { background:rgba(0,212,255,.14); }
 .btn-skip:disabled { opacity:.28; cursor:not-allowed; }
 body.infinite-active .btn-skip { display:block; }
@@ -725,7 +725,7 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   .glass-card { width: 100%; padding: 18px 6px; box-sizing: border-box; }
   .right-card-container {
     flex: 0 0 auto;
-    margin-top: 0;
+    margin-top: 18px;
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -949,8 +949,8 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
 .hard-card {
   background: var(--surf);
   border: 1px solid rgba(248,81,73,.35);
-  border-radius: 16px;
-  padding: clamp(14px,3vw,22px);
+  border-radius: 12px;
+  padding: 10px 16px;
   width: 100%;
   display: flex;
   flex-direction: column;
