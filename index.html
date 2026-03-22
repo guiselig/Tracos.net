@@ -519,6 +519,7 @@ main[data-letters="7"] {
 .ov.show .modal { transform: scale(1); }
 .modal-title { font-family: var(--font-dig); font-weight: 700; font-size: clamp(14px,3vw,18px); color: var(--acc); letter-spacing: 4px; text-align: center; }
 .btn-p { width:100%; background:var(--acc); color:#0b0c10; border:none; font-family:var(--font-ui); font-size:12px; font-weight:700; letter-spacing:2px; padding:13px; border-radius:var(--r); cursor:pointer; transition:opacity .15s; }
+.btn-share-streak { background:#00d4ff; color:#000; box-shadow:0 0 18px rgba(0,212,255,.35); }
 .btn-p:hover { opacity:.85; }
 .btn-s { width:100%; background:none; border:1px solid var(--bdr); color:var(--txt-mid); font-family:var(--font-ui); font-size:11px; letter-spacing:1px; padding:11px; border-radius:var(--r); cursor:pointer; transition:border-color .15s,color .15s; }
 .btn-s:hover { border-color:var(--bdr2); color:var(--txt); }
@@ -545,6 +546,11 @@ main[data-letters="7"] {
 .pp-n.gold { color:var(--gold); }
 .pp-l { font-size:9px; letter-spacing:1.5px; color:var(--txt-dim); text-transform:uppercase; text-align:center; }
 .pp-info { padding:12px 16px; font-size:12px; color:var(--txt-mid); text-align:center; line-height:1.9; width:100%; }
+.pp-tabs { display:flex; gap:6px; width:100%; max-width:440px; margin-bottom:2px; }
+.pp-tab { flex:1; padding:8px 4px; font-family:var(--font-hd); font-size:10px; letter-spacing:1.5px; font-weight:700; border-radius:8px; border:1px solid var(--bdr2); background:var(--surf); color:var(--txt-dim); cursor:pointer; transition:all .15s; }
+.pp-tab.active { background:var(--acc); color:#000; border-color:var(--acc); }
+.pp-tab.pp-tab-soon { opacity:.4; cursor:default; pointer-events:none; }
+.pp-soon-msg { padding:32px 16px; font-family:var(--font-hd); font-size:13px; letter-spacing:3px; color:var(--txt-dim); text-align:center; }
 .dist-sect  { width:100%; }
 .dist-title { font-size:11px; letter-spacing:3px; color:var(--txt-dim); margin-bottom:10px; text-align:left; }
 .dist-row   { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
@@ -580,6 +586,15 @@ main[data-letters="7"] {
 .hint-item.revealed .hint-text strong { color:#fff; }
 .btn-reveal { background:none; border:1px solid var(--bdr2); color:var(--txt-mid); font-family:var(--font-ui); font-size:12px; font-weight:700; letter-spacing:2px; padding:7px 14px; border-radius:6px; cursor:pointer; transition:all .15s; flex-shrink:0; }
 .btn-reveal:hover { border-color:var(--acc); color:var(--acc); }
+
+/* ── MODO INFINITO ── */
+.mode-card-badge.badge-inf { background:rgba(0,212,255,.10); color:#00d4ff; border:1px solid rgba(0,212,255,.30); }
+body.infinite-active .daily-badge { color:#00d4ff; }
+@media (max-width: 700px) { body.infinite-active #left-col .glass-card { background:transparent !important; border-color:transparent !important; box-shadow:none !important; } }
+@media (min-width: 701px) { body.infinite-active #left-col .glass-card { border-color:rgba(0,212,255,.25); box-shadow:0 0 24px rgba(0,212,255,.07); } }
+body.infinite-active .right-card-container { border-color:rgba(0,212,255,.20) !important; }
+body.infinite-active .cell-box.focused { border-color:#00d4ff; box-shadow:0 0 0 2px rgba(0,212,255,.18); }
+body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
 
 /* ── TUTORIAL ── */
 /* ── MODES MODAL ── */
@@ -844,7 +859,18 @@ main[data-letters="7"] {
   background: var(--surf2);
   margin-bottom: 4px;
 }
-.hard-toggle-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--txt); }
+.hard-toggle-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--txt); display:flex; align-items:center; gap:6px; }
+.btn-hard-info { background:none; border:1px solid rgba(248,81,73,.35); color:var(--err); font-size:10px; font-weight:700; font-family:var(--font-hd); cursor:pointer; padding:0; width:17px; height:17px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; line-height:1; flex-shrink:0; transition:background .15s,border-color .15s; }
+.btn-hard-info:hover { background:rgba(248,81,73,.12); border-color:var(--err); }
+.hard-tut-modal { background:var(--surf); border:1px solid rgba(248,81,73,.28); border-radius:16px; padding:clamp(20px,4vw,28px); width:100%; max-width:420px; display:flex; flex-direction:column; gap:16px; transform:scale(.94); transition:transform .2s; }
+.ov.show .hard-tut-modal { transform:scale(1); }
+.hard-tut-title { font-family:var(--font-hd); font-weight:700; font-size:17px; color:var(--err); letter-spacing:2px; text-align:center; }
+.hard-tut-sub { font-size:10px; letter-spacing:3px; color:var(--txt-dim); text-align:center; margin-top:-8px; }
+.hard-tut-rules { display:flex; flex-direction:column; gap:10px; }
+.hard-tut-rule { display:flex; gap:14px; align-items:flex-start; background:var(--surf2); border-radius:10px; padding:12px 14px; border:1px solid var(--bdr); }
+.hard-tut-rule-icon { font-size:20px; flex-shrink:0; margin-top:1px; }
+.hard-tut-rule-name { font-family:var(--font-hd); font-size:10px; letter-spacing:1.5px; font-weight:700; color:var(--err); margin-bottom:4px; }
+.hard-tut-rule-desc { font-size:12px; color:var(--txt-mid); line-height:1.6; }
 .hard-toggle-sub   { font-size: 10px; letter-spacing: 1px; color: var(--txt-dim); margin-top: 2px; }
 .hard-toggle-switch {
   position: relative; width: 44px; height: 24px; flex-shrink: 0;
@@ -1287,7 +1313,10 @@ body.hard-active .logo-icon .sg-correct {
     
     <div id="kb-wrap" style="grid-area: 1 / 1; transition: opacity 0.2s ease;"></div>
     
-    <div id="mobile-share-container" style="grid-area: 1/1; display: none; justify-content: center; align-items: center; z-index: 10; opacity: 0; width: 100%; padding: 10px 10px;">
+    <div id="mobile-share-container" style="grid-area: 1/1; display: none; justify-content: center; align-items: center; z-index: 10; opacity: 0; width: 100%; padding: 10px 10px; flex-direction: column; gap: 8px;">
+  <button id="btn-mobile-share-streak" style="display:none; appearance: none; -webkit-appearance: none; background-color: #00b8d9; color: #000; border: none; width: 95%; padding: 20px 10px; font-size: clamp(12px, 3.2vw, 15px); border-radius: 10px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0,212,255,0.3); white-space: nowrap;">
+    📤 COMPARTILHAR SEQUÊNCIA
+  </button>
   <button id="btn-mobile-share" style="appearance: none; -webkit-appearance: none; background-color: #2e5c2b; color: #ffffff; border: none; width: 95%; padding: 25px 10px; font-size: clamp(13px, 3.5vw, 16px); border-radius: 10px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 15px rgba(46, 92, 43, 0.3); white-space: nowrap;">
     COMPARTILHAR
   </button>
@@ -1316,6 +1345,8 @@ body.hard-active .logo-icon .sg-correct {
     <div class="end-title" id="end-title"></div>
     <div class="end-word"  id="end-word"></div>
     <div class="end-sub"   id="end-sub"></div>
+    <button class="btn-p btn-share-streak" id="btn-share-streak" style="display:none">📤 COMPARTILHAR SEQUÊNCIA</button>
+    <button class="btn-p"  id="btn-next-word" style="display:none">▶ PRÓXIMA PALAVRA</button>
     <button class="btn-p"  id="btn-share">COMPARTILHAR</button>
     <button class="btn-s"  id="btn-end-close">FECHAR</button>
   </div>
@@ -1333,7 +1364,6 @@ body.hard-active .logo-icon .sg-correct {
           <svg viewBox="0 0 38 38" width="38" height="38">
             <rect x="4" y="4" width="30" height="30" rx="5" stroke-width="1.6"/>
             <path d="M12 4v6M26 4v6M4 16h30" stroke-width="1.6"/>
-            <path d="M14 24h10M19 20v8" stroke-width="2" stroke="var(--acc)"/>
           </svg>
         </div>
         <div class="mode-card-info">
@@ -1343,19 +1373,18 @@ body.hard-active .logo-icon .sg-correct {
         <div class="mode-card-badge badge-active">ATIVO</div>
       </div>
 
-      <!-- Infinito (em breve) -->
-      <div class="mode-card mode-soon">
+      <!-- Infinito -->
+      <div class="mode-card" id="mode-infinite">
         <div class="mode-card-icon">
           <svg viewBox="0 0 38 38" width="38" height="38">
-            <path d="M8 19c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8 8 8-8-3.6-8-8" stroke-width="1.8"/>
-            <path d="M30 19c0 4.4-3.6 8-8 8" stroke-width="1.8"/>
+            <path d="M19 19C19 13.5 14.5 10 10 10C5.5 10 3 13.5 3 19C3 24.5 5.5 28 10 28C14.5 28 17 24.5 19 19C21 13.5 23.5 10 28 10C32.5 10 35 13.5 35 19C35 24.5 32.5 28 28 28C23.5 28 21 24.5 19 19Z" fill="none" stroke="var(--txt-mid)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="mode-card-info">
           <div class="mode-card-name">INFINITO</div>
           <div class="mode-card-desc">Jogue sem parar, sem limite de palavras.</div>
         </div>
-        <div class="mode-card-badge badge-soon">EM BREVE</div>
+        <div class="mode-card-badge badge-inf" id="badge-infinite">JOGAR</div>
       </div>
 
       <!-- Dupla (em breve) -->
@@ -1364,8 +1393,6 @@ body.hard-active .logo-icon .sg-correct {
           <svg viewBox="0 0 38 38" width="38" height="38">
             <rect x="2" y="9" width="15" height="20" rx="3" stroke-width="1.6"/>
             <rect x="21" y="9" width="15" height="20" rx="3" stroke-width="1.6"/>
-            <path d="M7 15h5M7 19h5M7 23h3" stroke-width="1.5"/>
-            <path d="M26 15h5M26 19h5M26 23h3" stroke-width="1.5"/>
           </svg>
         </div>
         <div class="mode-card-info">
@@ -1386,7 +1413,7 @@ body.hard-active .logo-icon .sg-correct {
           </svg>
         </div>
         <div class="mode-card-info">
-          <div class="mode-card-name">QUARTETO</div>
+          <div class="mode-card-name">QUADRA</div>
           <div class="mode-card-desc">Quatro palavras simultâneas. Para os corajosos.</div>
         </div>
         <div class="mode-card-badge badge-soon">EM BREVE</div>
@@ -1401,8 +1428,16 @@ body.hard-active .logo-icon .sg-correct {
 <div class="ov" id="stats-ov">
   <div class="stats-ov-inner">
 
-    <!-- Card 1: Stats -->
-    <div class="stats-card">
+    <!-- Abas -->
+    <div class="pp-tabs">
+      <button class="pp-tab active" id="pp-tab-daily">DIÁRIO</button>
+      <button class="pp-tab" id="pp-tab-inf">INFINITO</button>
+      <button class="pp-tab pp-tab-soon" id="pp-tab-dupla">DUPLA</button>
+      <button class="pp-tab pp-tab-soon" id="pp-tab-quadra">QUADRA</button>
+    </div>
+
+    <!-- Painel: Diário -->
+    <div class="stats-card" id="pp-panel-daily">
       <div class="modal-title">PASSAPORTE</div>
       <div class="passport" id="passport"></div>
       <div class="dist-sect">
@@ -1411,11 +1446,26 @@ body.hard-active .logo-icon .sg-correct {
       </div>
     </div>
 
-    <!-- Card 2: Modo Difícil -->
+    <!-- Painel: Infinito -->
+    <div class="stats-card" id="pp-panel-inf" style="display:none">
+      <div class="modal-title">MODO INFINITO</div>
+      <div class="passport" id="passport-inf"></div>
+      <div class="dist-sect">
+        <div class="dist-title">DISTRIBUIÇÃO DE TENTATIVAS</div>
+        <div id="inf-dist-wrap"></div>
+      </div>
+    </div>
+
+    <!-- Painel: Em breve (Dupla / Quadra) -->
+    <div class="stats-card" id="pp-panel-soon" style="display:none">
+      <div class="pp-soon-msg" id="pp-soon-label">EM BREVE</div>
+    </div>
+
+    <!-- Card 2: Modo Difícil (só no painel Diário) -->
     <div class="hard-card" id="hard-toggle-row">
       <div class="hard-toggle-row" style="border:none;background:none;padding:0;margin:0;width:100%;">
         <div>
-          <div class="hard-toggle-label">🔥 MODO DIFÍCIL</div>
+          <div class="hard-toggle-label">🔥 MODO DIFÍCIL <button class="btn-hard-info" id="btn-hard-tut" title="Ver regras do modo difícil">?</button></div>
           <div class="hard-toggle-sub" id="hard-toggle-sub">ATIVE ANTES DE COMEÇAR</div>
         </div>
         <label class="hard-toggle-switch">
@@ -1426,6 +1476,38 @@ body.hard-active .logo-icon .sg-correct {
     </div>
 
     <button class="btn-s" id="btn-stats-close" style="width:100%;max-width:440px;">FECHAR</button>
+  </div>
+</div>
+
+<!-- Modal: tutorial modo difícil -->
+<div class="ov" id="hard-tut-ov">
+  <div class="hard-tut-modal">
+    <div class="hard-tut-title">🔥 MODO DIFÍCIL</div>
+    <div class="hard-tut-sub">3 REGRAS EXTRAS</div>
+    <div class="hard-tut-rules">
+      <div class="hard-tut-rule">
+        <div class="hard-tut-rule-icon">🎯</div>
+        <div class="hard-tut-rule-body">
+          <div class="hard-tut-rule-name">POSIÇÕES CORRETAS</div>
+          <div class="hard-tut-rule-desc">Letras na posição certa devem ser mantidas em todas as tentativas seguintes.</div>
+        </div>
+      </div>
+      <div class="hard-tut-rule">
+        <div class="hard-tut-rule-icon">🚫</div>
+        <div class="hard-tut-rule-body">
+          <div class="hard-tut-rule-name">SEM REPETIÇÃO</div>
+          <div class="hard-tut-rule-desc">Uma letra já tentada e errada numa posição não pode ser colocada ali novamente.</div>
+        </div>
+      </div>
+      <div class="hard-tut-rule">
+        <div class="hard-tut-rule-icon" style="color:var(--acc)">✦</div>
+        <div class="hard-tut-rule-body">
+          <div class="hard-tut-rule-name">TODOS OS TRAÇOS</div>
+          <div class="hard-tut-rule-desc">Cada nova letra deve incluir todos os traços já revelados naquela posição.</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-s" id="btn-hard-tut-close">ENTENDIDO</button>
   </div>
 </div>
 
@@ -1539,13 +1621,25 @@ const MAX_ATT = 4, ORIGIN = new Date(Date.UTC(2026, 2, 17));
 
 // ── Modo Difícil ──
 let hardMode = false;
-function loadHardMode(){ hardMode = !!(st().hardMode); }
-function saveHardMode(){ const s=st(); s.hardMode=hardMode; sv(s); }
+let hardModes = { daily: false, inf: false, dupla: false, quadra: false };
+function loadHardMode(){
+  const s=st();
+  if(s.hardModes){ hardModes=Object.assign({daily:false,inf:false,dupla:false,quadra:false},s.hardModes); }
+  else if(s.hardMode){ hardModes.daily=!!s.hardMode; } // migração legado
+  syncHardMode();
+}
+function saveHardMode(){ const s=st(); s.hardModes=hardModes; sv(s); }
+function syncHardMode(){
+  hardMode = infiniteMode ? hardModes.inf : hardModes.daily;
+  updateHardBadge();
+}
 function updateHardBadge(){
   const badge=document.getElementById('hard-badge');
   if(badge) badge.classList.toggle('visible', !!hardMode);
   document.body.classList.toggle('hard-active', !!hardMode);
 }
+function showHardTutorial(){ document.getElementById('hard-tut-ov').classList.add('show'); }
+function closeHardTutorial(){ closeOv('hard-tut-ov'); const s=st();s.hardTutSeen=true;sv(s); }
 
 // Nascem aguardando a verificação do servidor
 let realNow = new Date();
@@ -1575,6 +1669,66 @@ function norm(s) {
 let G = { attempts: [], status: 'playing' };
 let revSegs = [], corrPos = [];
 let cellVals = [], focusIdx = 0;
+
+// ── MODO INFINITO ──
+let infiniteMode = false;
+let infiniteWord  = '';
+let infStreak     = 0;
+let infPlayed     = 0;
+let infWins       = 0;
+let infBest       = 0;
+let infGold       = 0;
+let infHardPlayed = 0;
+let infHardWins   = 0;
+let infLastStreak = 0;
+
+function pickNextInfiniteWord(){
+  const pool=DAILY_POOL.filter(w=>/^[A-Z]{5,7}$/.test(w));
+  if(!pool.length)return;
+  let w,tries=0;
+  do{w=pool[Math.floor(Math.random()*pool.length)];tries++;}while(w===infiniteWord&&pool.length>1&&tries<15);
+  infiniteWord=w;
+  G={attempts:[],status:'playing'};
+  recompute();resetCells();
+}
+
+function startInfinite(){
+  closeOv('modes-ov');
+  if(!infiniteMode){const s=st();infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;}
+  infiniteMode=true;
+  syncHardMode();
+  document.body.classList.add('infinite-active');
+  setPath('inf');
+  pickNextInfiniteWord();
+  render();
+  updateModesModal();
+}
+
+function exitInfinite(){
+  busy=false;
+  infiniteMode=false;infiniteWord='';
+  syncHardMode();
+  document.body.classList.remove('infinite-active');
+  closeOv('end-ov');closeOv('modes-ov');
+  G={attempts:[],status:'playing'};
+  setPath('daily', TODAY);
+  currentDay=TODAY;isArchive=false;
+  loadDay(currentDay);
+  render();
+  updateModesModal();
+}
+
+function updateModesModal(){
+  const dc=document.getElementById('mode-daily');
+  const ic=document.getElementById('mode-infinite');
+  if(!dc||!ic)return;
+  const db=dc.querySelector('.mode-card-badge');
+  db.className='mode-card-badge '+(infiniteMode?'badge-soon':'badge-active');
+  db.textContent=infiniteMode?'PAUSADO':'ATIVO';
+  const ib=document.getElementById('badge-infinite');
+  ib.className='mode-card-badge '+(infiniteMode?'badge-active':'badge-inf');
+  ib.textContent=infiniteMode?'ATIVO':'JOGAR';
+}
 
 // ── Células de input ──
 function buildCells(){
@@ -1768,6 +1922,20 @@ function loadDay(day){
 }
 
 function saveDay(){
+  if(infiniteMode){
+    if(G.status!=='playing'){
+      infPlayed++;
+      const won=G.status==='won';
+      if(won){infStreak++;infWins++;if(infStreak>infBest)infBest=infStreak;if(G.attempts.length===1)infGold++;}else{infLastStreak=infStreak;infStreak=0;}
+      if(hardMode){infHardPlayed++;if(won)infHardWins++;}
+      const s=st();
+      s.infStreak=infStreak;s.infPlayed=infPlayed;s.infWins=infWins;s.infBest=infBest;s.infGold=infGold;s.infHardPlayed=infHardPlayed;s.infHardWins=infHardWins;s.infLastStreak=infLastStreak;
+      if(!s.infFirstDay)s.infFirstDay=new Date(realNow).toISOString().split('T')[0];
+      if(won){if(!s.infDist)s.infDist={};const k=G.attempts.length;s.infDist[k]=(s.infDist[k]||0)+1;}
+      sv(s);
+    }
+    return;
+  }
   const s=st();if(!s.days)s.days={};
   
   // A CORREÇÃO: Resgata as dicas salvas antes de sobrescrever o dia
@@ -1813,7 +1981,7 @@ async function isValid(word){
   if(VALID_SET.has(word))return true;
   const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),4000);
   try{const r=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/pt/${word.toLowerCase()}`,{signal:ctrl.signal});clearTimeout(tid);if(r.status===404)return false;if(r.ok){const d=await r.json();return Array.isArray(d)&&d.length>0;}return true;}
-  catch{clearTimeout(tid);return true;}
+  catch(e){clearTimeout(tid);if(e.name==='AbortError')return false;return true;}
 }
 
 function getLenForDay(day) {
@@ -1845,6 +2013,7 @@ function getLenForDay(day) {
 }
 
 function getTarget(day){
+  if(infiniteMode&&infiniteWord)return infiniteWord;
   const len=getLenForDay(day);
   const pool=DAILY_POOL.filter(w=>w.length===len);
   if(!pool.length){const fb=DAILY_POOL.filter(w=>/^[A-Z]{5,7}$/.test(w));return fb[((day*1337+42)%fb.length+fb.length)%fb.length];}
@@ -1910,12 +2079,13 @@ async function submitGuess(raw){
     }
   }
   busy=true;setLoad(true);
-  const ok=await isValid(w);setLoad(false);busy=false;
-  if(!ok){toast('PALAVRA NÃO ENCONTRADA');shakeInp();return;}
+  const ok=await isValid(w);setLoad(false);
+  if(!ok){busy=false;toast('PALAVRA NÃO ENCONTRADA');shakeInp();return;}
   const prev=revSegs.map(s=>new Set(s));
   G.attempts.push(w);recompute();
   if(w===t)G.status='won';else if(G.attempts.length>=MAX_ATT)G.status='lost';
   resetCells();saveDay();render(prev);
+  busy=false;
   if(G.status!=='playing')setTimeout(showEnd,1000);
 }
 function setLoad(on){document.getElementById('btn-ok').disabled=on;document.getElementById('btn-ok').textContent=on?'···':'TENTAR';}
@@ -1998,8 +2168,14 @@ function render(prevRev=null){
     let c='pdot';if(i<G.attempts.length)c+=G.attempts[i]===t?' win':' fail';return`<div class="${c}"></div>`;
   }).join('');
   // Day label
-  const dt=dayToDate(currentDay);
-  document.getElementById('day-lbl').textContent = `#${currentDay} · ${new Date(ORIGIN.getTime() + currentDay*86400000).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).toUpperCase()}`;
+  if(infiniteMode){
+    document.getElementById('day-lbl').textContent=`∞ · ${infPlayed} JOGADA${infPlayed!==1?'S':''} · ${infStreak} EM SEQUÊNCIA`;
+    const db=document.querySelector('.daily-badge');if(db)db.textContent='∞ MODO INFINITO';
+  }else{
+    const dt=dayToDate(currentDay);
+    document.getElementById('day-lbl').textContent = `#${currentDay} · ${new Date(ORIGIN.getTime() + currentDay*86400000).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).toUpperCase()}`;
+    const db=document.querySelector('.daily-badge');if(db)db.textContent='Palavra do Dia';
+  }
   // Cells
   buildCells();
   // Lógica inteligente do botão principal
@@ -2007,12 +2183,15 @@ function render(prevRev=null){
   if (playing) {
     btnOk.disabled = false;
     btnOk.textContent = 'TENTAR';
-    btnOk.classList.remove('btn-share'); // Remove o verde durante o jogo
+    btnOk.classList.remove('btn-share');
+  } else if (infiniteMode) {
+    btnOk.disabled = false;
+    btnOk.textContent = '▶ PRÓXIMA';
+    btnOk.classList.add('btn-share');
   } else {
-    // Se o jogo acabou, o botão ressuscita como Compartilhar
     btnOk.disabled = false;
     btnOk.textContent = 'COMPARTILHAR';
-    btnOk.classList.add('btn-share'); // Acende o botão de verde
+    btnOk.classList.add('btn-share');
   }
   // Attempts
   renderAttempts();
@@ -2033,15 +2212,25 @@ function render(prevRev=null){
   if (window.innerWidth <= 700) {
     if (!playing) {
       if (kb && mobShare) {
-        kb.style.display = 'none'; 
-        
+        kb.style.display = 'none';
+        // Modo infinito: ajusta botões mobile
+        const mobShareStreak=document.getElementById('btn-mobile-share-streak');
+        const mobShareNormal=document.getElementById('btn-mobile-share');
+        if(infiniteMode && G.status==='lost'){
+          if(mobShareStreak)mobShareStreak.style.display='';
+          if(mobShareNormal)mobShareNormal.style.display='none';
+          if(mobShareNormal)mobShareNormal.style.paddingTop='20px';
+        } else if(infiniteMode){
+          if(mobShareStreak)mobShareStreak.style.display='none';
+          if(mobShareNormal)mobShareNormal.style.display='none';
+        } else {
+          if(mobShareStreak)mobShareStreak.style.display='none';
+          if(mobShareNormal){mobShareNormal.style.display='';mobShareNormal.style.paddingTop='';}
+        }
         mobShare.style.height = '';
         mobShare.style.display = 'flex';
-        
-        // Remove a classe antiga (se houver) e adiciona a nova com delay
         mobShare.classList.remove('animate-pop-delay');
-        // Forçamos um "reflow" para o browser entender que a animação deve reiniciar
-        void mobShare.offsetWidth; 
+        void mobShare.offsetWidth;
         mobShare.classList.add('animate-pop-delay');
       }
     } else {
@@ -2056,12 +2245,27 @@ function render(prevRev=null){
 
 // ── Fim de jogo ──
 function showEnd(){
-  const t=getTarget(currentDay),won=G.status==='won',att=G.attempts.length,isGold=won&&att===1,sd=st().stats||{};
+  const t=getTarget(currentDay),won=G.status==='won',att=G.attempts.length,isGold=won&&att===1&&!infiniteMode,sd=st().stats||{};
   document.getElementById('end-icon').textContent=won?(isGold?'✦':['🎯','✨','🔥','💡'][Math.min(att-1,3)]):'💭';
   document.getElementById('gold-badge').innerHTML=isGold?`<div class="gold-badge">✦ TRAÇO DE OURO ✦</div>`:'';
   document.getElementById('end-title').textContent=won?(isGold?'PERFEITO!':['GENIAL!','EXCELENTE!','MUITO BEM!','CONSEGUIU!'][Math.min(att-1,3)]):'QUE PENA...';
   const ew=document.getElementById('end-word');ew.textContent=t;ew.className='end-word'+(isGold?' gold':'');
-  document.getElementById('end-sub').textContent=won?`${att}/${MAX_ATT} TENTATIVAS${!isArchive?` · SEQUÊNCIA: ${sd.streak||1}`:''}` :'A PALAVRA ERA ESTA. TENTE AMANHÃ!';
+  const nextBtn=document.getElementById('btn-next-word');
+  const shareBtn=document.getElementById('btn-share');
+  const shareStreakBtn=document.getElementById('btn-share-streak');
+  const closeBtn=document.getElementById('btn-end-close');
+  if(infiniteMode){
+    document.getElementById('end-sub').textContent=won
+      ?`${att}/${MAX_ATT} TENTATIVAS · SEQUÊNCIA: ${infStreak} VITÓRIA${infStreak!==1?'S':''} · ${infPlayed} JOGADAS`
+      :`SEQUÊNCIA ENCERRADA${infLastStreak>0?` · ${infLastStreak} VITÓRIA${infLastStreak!==1?'S':''}`:''} · TENTE OUTRA!`;
+    nextBtn.style.display='';
+    shareStreakBtn.style.display=won?'none':'';
+    shareBtn.style.display='none';
+    closeBtn.textContent='SAIR DO INFINITO';
+  }else{
+    document.getElementById('end-sub').textContent=won?`${att}/${MAX_ATT} TENTATIVAS${!isArchive?` · SEQUÊNCIA: ${sd.streak||1}`:''}` :'A PALAVRA ERA ESTA. TENTE AMANHÃ!';
+    nextBtn.style.display='none';shareBtn.style.display='';shareStreakBtn.style.display='none';closeBtn.textContent='FECHAR';
+  }
   document.getElementById('end-ov').classList.add('show');
 }
 
@@ -2069,31 +2273,72 @@ function showEnd(){
 const RANKS=[[0,'🔍','Curioso'],[1,'📖','Aprendiz'],[10,'🔎','Decodificador'],[25,'🧩','Analista'],[50,'🔐','Especialista'],[100,'🗝️','Criptografista'],[200,'⚡','Mestre dos Traços']];
 function getRank(w){let r=RANKS[0];for(const rk of RANKS){if(w>=rk[0])r=rk;else break;}return r;}
 // ── Estatísticas ──
-function showStats(){
+let activePassportTab = 'daily';
+
+function renderPassportDaily(){
   const sd=st().stats||{},wins=sd.wins||0,play=sd.played||0,wr=play?Math.round(wins/play*100):0;
-  const rank=getRank(wins),dist=sd.dist||{},lost=play-wins;
-  const hardPlayed=sd.hardPlayed||0, hardWins=sd.hardWins||0;
-  const hardWr=hardPlayed?Math.round(hardWins/hardPlayed*100):0;
-  document.getElementById('passport').innerHTML=`<div class="pp-row"><div class="pp-cell"><div class="pp-n">${wr}%</div><div class="pp-l">% DE VITÓRIA</div></div><div class="pp-cell"><div class="pp-n gold">✦ ${sd.goldGlyphs||0}</div><div class="pp-l">TRAÇOS DE OURO</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n">${play}</div><div class="pp-l">JOGOS</div></div><div class="pp-cell"><div class="pp-n">${wins}</div><div class="pp-l">VITÓRIAS</div></div><div class="pp-cell"><div class="pp-n">${sd.streak||0}</div><div class="pp-l">SEQUÊNCIA</div></div><div class="pp-cell"><div class="pp-n">${sd.best||0}</div><div class="pp-l">MELHOR</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n" style="color:var(--err)">🔥 ${hardPlayed}</div><div class="pp-l">JOGOS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardWins}</div><div class="pp-l">VITÓRIAS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardWr}%</div><div class="pp-l">% VITÓRIA DIFÍCIL</div></div></div><div class="pp-info">${sd.firstDay?`📅 Desde: ${new Date(sd.firstDay).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}`:'Jogue para começar sua jornada!'}</div>`;
+  const dist=sd.dist||{},lost=play-wins;
+  const hardPlayed=sd.hardPlayed||0,hardWins=sd.hardWins||0,hardWr=hardPlayed?Math.round(hardWins/hardPlayed*100):0;
+  document.getElementById('passport').innerHTML=`<div class="pp-row"><div class="pp-cell"><div class="pp-n">${wr}%</div><div class="pp-l">% DE VITÓRIA</div></div><div class="pp-cell"><div class="pp-n gold">✦ ${sd.goldGlyphs||0}</div><div class="pp-l">TRAÇOS DE OURO</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n">${play}</div><div class="pp-l">JOGOS</div></div><div class="pp-cell"><div class="pp-n">${wins}</div><div class="pp-l">VITÓRIAS</div></div><div class="pp-cell"><div class="pp-n">${sd.streak||0}</div><div class="pp-l">SEQUÊNCIA</div></div><div class="pp-cell"><div class="pp-n">${sd.best||0}</div><div class="pp-l">MELHOR</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardPlayed}</div><div class="pp-l">JOGOS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardWins}</div><div class="pp-l">VITÓRIAS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardWr}%</div><div class="pp-l">% VITÓRIA DIFÍCIL</div></div></div><div class="pp-info">${sd.firstDay?`📅 Desde: ${new Date(sd.firstDay).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}`:'Jogue para começar sua jornada!'}</div>`;
   const total=wins+lost,mx=Math.max(1,...Object.values(dist).map(Number),lost);
   let html='';
   for(let i=1;i<=MAX_ATT;i++){const v=dist[i]||0,pct=total?Math.round(v/total*100):0,bw=Math.round(v/mx*100);html+=`<div class="dist-row"><span class="dist-lbl">${i}</span><div class="dist-bar-wrap"><div class="dist-bar ok" style="width:${bw}%"></div></div><span class="dist-pct">${pct}%</span></div>`;}
   const lpct=total?Math.round(lost/total*100):0,lw=Math.round(lost/mx*100);
   html+=`<div class="dist-row"><span class="dist-lbl" style="color:var(--err)">✗</span><div class="dist-bar-wrap"><div class="dist-bar err" style="width:${lw}%"></div></div><span class="dist-pct" style="color:var(--err)">${lpct}%</span></div>`;
   document.getElementById('dist-wrap').innerHTML=html;
+}
+
+function renderPassportInf(){
+  const s=st(),iPlayed=s.infPlayed||0,iWins=s.infWins||0,iStreak=s.infStreak||0,iBest=s.infBest||0;
+  const iGold=s.infGold||0,iHardP=s.infHardPlayed||0,iHardW=s.infHardWins||0;
+  const iWr=iPlayed?Math.round(iWins/iPlayed*100):0,iLost=iPlayed-iWins;
+  const iHardWr=iHardP?Math.round(iHardW/iHardP*100):0;
+  document.getElementById('passport-inf').innerHTML=`<div class="pp-row"><div class="pp-cell"><div class="pp-n">${iWr}%</div><div class="pp-l">% DE VITÓRIA</div></div><div class="pp-cell"><div class="pp-n gold">✦ ${iGold}</div><div class="pp-l">TRAÇOS DE OURO</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n">${iPlayed}</div><div class="pp-l">JOGOS</div></div><div class="pp-cell"><div class="pp-n">${iWins}</div><div class="pp-l">VITÓRIAS</div></div><div class="pp-cell"><div class="pp-n" style="color:#00d4ff">${iBest}</div><div class="pp-l">MELHOR SEQUÊNCIA</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${iHardP}</div><div class="pp-l">JOGOS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${iHardW}</div><div class="pp-l">VITÓRIAS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${iHardWr}%</div><div class="pp-l">% VITÓRIA DIFÍCIL</div></div></div><div class="pp-info">${s.infFirstDay?`📅 Desde: ${new Date(s.infFirstDay).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}`:(iPlayed?'Continue jogando para bater seu recorde!':'Inicie o Modo Infinito para começar!')}</div>`;
+  const dist=s.infDist||{},mx=Math.max(1,...Object.values(dist).map(Number),iLost);
+  let html='';
+  for(let i=1;i<=MAX_ATT;i++){const v=dist[i]||0,pct=iPlayed?Math.round(v/iPlayed*100):0,bw=Math.round(v/mx*100);html+=`<div class="dist-row"><span class="dist-lbl">${i}</span><div class="dist-bar-wrap"><div class="dist-bar ok" style="width:${bw}%"></div></div><span class="dist-pct">${pct}%</span></div>`;}
+  const lpct=iPlayed?Math.round(iLost/iPlayed*100):0,lw=Math.round(iLost/mx*100);
+  html+=`<div class="dist-row"><span class="dist-lbl" style="color:var(--err)">✗</span><div class="dist-bar-wrap"><div class="dist-bar err" style="width:${lw}%"></div></div><span class="dist-pct" style="color:var(--err)">${lpct}%</span></div>`;
+  document.getElementById('inf-dist-wrap').innerHTML=html;
+}
+
+function updateHardToggleSub(tab){
+  const sub=document.getElementById('hard-toggle-sub');
   const inp=document.getElementById('hard-toggle-input');
   const row=document.getElementById('hard-toggle-row');
-  const sub=document.getElementById('hard-toggle-sub');
-  if(inp){
-    inp.checked=hardMode;
-    // Pode sempre desativar; só não pode ativar após começar
-    const canActivate = G.attempts.length === 0;
-    const isDisabled = !hardMode && !canActivate; // desabilitado só se não-hard e já jogou
-    row.classList.toggle('hard-toggle-disabled', isDisabled);
-    if(canActivate) sub.textContent = 'ATIVE ANTES DE COMEÇAR';
-    else if(hardMode) sub.textContent = 'MODO ATIVO — PODE DESATIVAR';
-    else sub.textContent = 'SÓ PODE ATIVAR ANTES DE JOGAR';
+  if(!sub||!inp||!row) return;
+  const isOn=hardModes[tab]||false;
+  inp.checked=isOn;
+  if(tab==='daily'){
+    const canActivate=G.attempts.length===0||infiniteMode;
+    const isDisabled=!isOn&&!canActivate;
+    row.classList.toggle('hard-toggle-disabled',isDisabled);
+    if(canActivate) sub.textContent='ATIVE ANTES DE COMEÇAR';
+    else if(isOn) sub.textContent='MODO ATIVO — PODE DESATIVAR';
+    else sub.textContent='SÓ PODE ATIVAR ANTES DE JOGAR';
+  } else if(tab==='inf'){
+    row.classList.remove('hard-toggle-disabled');
+    sub.textContent=isOn?'MODO ATIVO — PODE DESATIVAR':'ATIVE PARA A PRÓXIMA PALAVRA';
+  } else {
+    row.classList.remove('hard-toggle-disabled');
+    sub.textContent='PREFERÊNCIA SALVA PARA QUANDO LANÇAR';
   }
+}
+
+function switchPassportTab(tab){
+  activePassportTab=tab;
+  ['daily','inf'].forEach(t=>{const b=document.getElementById(`pp-tab-${t}`);if(b)b.classList.toggle('active',t===tab);});
+  document.getElementById('pp-panel-daily').style.display=tab==='daily'?'':'none';
+  document.getElementById('pp-panel-inf').style.display=tab==='inf'?'':'none';
+  document.getElementById('pp-panel-soon').style.display=(tab==='dupla'||tab==='quadra')?'':'none';
+  if(tab==='dupla'||tab==='quadra')document.getElementById('pp-soon-label').textContent=tab==='dupla'?'DUPLA — EM BREVE':'QUADRA — EM BREVE';
+  if(tab==='daily')renderPassportDaily();
+  if(tab==='inf')renderPassportInf();
+  updateHardToggleSub(tab);
+}
+
+function showStats(){
+  switchPassportTab(activePassportTab);
   document.getElementById('stats-ov').classList.add('show');
 }
 
@@ -2180,38 +2425,52 @@ function buildTutExamples(){
 
   // Slide 3: chute N, alvo A → traços em comum acendem
   const ex2 = document.getElementById('tut-ex-2'); ex2.innerHTML = '';
-  const sw2 = 56, sh2 = 84;
+  const sw2 = 52, sh2 = 78;
   const tsA = new Set(segsOf('A')), gsN = new Set(segsOf('N')), shared = new Set();
   for (const s of tsA) if (gsN.has(s)) shared.add(s);
 
-  // Bloco de chute: N com traços comuns acesos
-  const chute = document.createElement('div');
-  chute.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:6px';
-  let pN = ''; for (const id of ALL_S) pN += `<path class="${shared.has(id)?'sg sg-on':'sg sg-ghost'}" d="${SEGS[id]}"/>`;
-  const cellN = document.createElement('div'); cellN.className = 'g-cell'; cellN.style.padding = '6px';
-  cellN.innerHTML = `<svg viewBox="0 0 40 60" width="${sw2}" height="${sh2}" xmlns="http://www.w3.org/2000/svg">${pN}</svg>`;
-  const lblN = document.createElement('div');
-  lblN.style.cssText = 'font-size:11px;color:var(--txt-dim);text-align:center;line-height:1.6';
-  lblN.innerHTML = `
-    <div style="display:flex;gap:16px;justify-content:center;margin-top:4px">
-      <div style="text-align:center">
-        <div style="font-size:10px;letter-spacing:2px;color:var(--txt-dim);margin-bottom:2px">VOCÊ CHUTOU</div>
-        <div style="font-family:var(--font-dig);font-size:28px;font-weight:700;color:var(--txt)">N</div>
-      </div>
-      <div style="font-size:20px;color:var(--txt-dim);align-self:center">→</div>
-      <div style="text-align:center">
-        <div style="font-size:10px;letter-spacing:2px;color:var(--txt-dim);margin-bottom:2px">LETRA CERTA</div>
-        <div style="font-family:var(--font-dig);font-size:28px;font-weight:700;color:var(--acc)">A</div>
-      </div>
-    </div>`;
-  chute.appendChild(cellN); chute.appendChild(lblN);
+  function makeLabeledCell(innerHTML, cls, topLabel, topColor){
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:5px';
+    if(topLabel){
+      const lbl = document.createElement('div');
+      lbl.style.cssText = `font-size:9px;letter-spacing:1.5px;color:${topColor||'var(--txt-dim)'};font-weight:600`;
+      lbl.textContent = topLabel;
+      wrap.appendChild(lbl);
+    }
+    const cell = document.createElement('div');
+    cell.className = 'g-cell' + (cls ? ' '+cls : '');
+    cell.style.padding = '6px';
+    cell.innerHTML = innerHTML;
+    wrap.appendChild(cell);
+    return wrap;
+  }
 
-  // Legenda
-  const info = document.createElement('div');
-  info.style.cssText = 'font-size:12px;color:var(--txt-mid);line-height:2;text-align:left';
-  info.innerHTML = `<span style="color:var(--acc)">▪</span> Traço em comum<br><span style="color:var(--txt-dim)">▪</span> Não revelado`;
+  // N (chute) — todos os segmentos de N acesos
+  const svgN = makeTutSVG('N','on',sw2,sh2);
+  const wrapN = makeLabeledCell(svgN, '', 'VOCÊ CHUTOU', 'var(--txt-dim)');
 
-  ex2.appendChild(chute); ex2.appendChild(info);
+  // seta
+  const arr1 = document.createElement('div');
+  arr1.style.cssText = 'font-size:20px;color:var(--txt-dim);align-self:center;margin-top:16px';
+  arr1.textContent = '→';
+
+  // A (alvo) — todos os segmentos de A acesos
+  const svgA = makeTutSVG('A','on',sw2,sh2);
+  const wrapA = makeLabeledCell(svgA, '', 'LETRA CERTA', 'var(--acc)');
+
+  // seta
+  const arr2 = document.createElement('div');
+  arr2.style.cssText = 'font-size:20px;color:var(--txt-dim);align-self:center;margin-top:16px';
+  arr2.textContent = '=';
+
+  // Resultado: traços em comum de N e A acesos
+  let pShared = ''; for (const id of ALL_S) pShared += `<path class="${shared.has(id)?'sg sg-on':'sg sg-ghost'}" d="${SEGS[id]}"/>`;
+  const svgRes = `<svg viewBox="0 0 40 60" width="${sw2}" height="${sh2}" xmlns="http://www.w3.org/2000/svg">${pShared}</svg>`;
+  const wrapRes = makeLabeledCell(svgRes, '', 'REVELADO', 'var(--acc)');
+
+  ex2.style.cssText = 'display:flex;align-items:flex-start;gap:10px;justify-content:center;flex-wrap:wrap';
+  ex2.appendChild(wrapN); ex2.appendChild(arr1); ex2.appendChild(wrapA); ex2.appendChild(arr2); ex2.appendChild(wrapRes);
 
   // Slide 4: acúmulo — mostrar estado após 1 chute e depois verde
   const ex3 = document.getElementById('tut-ex-3'); ex3.innerHTML = '';
@@ -2285,8 +2544,8 @@ function fadeDay(fn){
   setTimeout(()=>{fn();m.style.opacity='1';},160);
 }
 
-function playDay(dn){closeOv('cal-ov');fadeDay(()=>{currentDay=dn;isArchive=dn!==TODAY;setHash(dn);loadDay(dn);render();if(G.status==='playing'){setFocus(focusIdx);hiddenInp.focus();}});}
-function returnToToday(){fadeDay(()=>{currentDay=TODAY;isArchive=false;setHash(TODAY);loadDay(TODAY);render();});}
+function playDay(dn){closeOv('cal-ov');fadeDay(()=>{currentDay=dn;isArchive=dn!==TODAY;setPath('daily',dn);loadDay(dn);render();if(G.status==='playing'){setFocus(focusIdx);hiddenInp.focus();}});}
+function returnToToday(){fadeDay(()=>{currentDay=TODAY;isArchive=false;setPath('daily',TODAY);loadDay(TODAY);render();});}
 
 
 // ── Toast ──
@@ -2297,6 +2556,74 @@ function shakeInp(){const r=document.getElementById('cells-row');r.classList.rem
 function closeOv(id){document.getElementById(id).classList.remove('show');}
 
 let shareBusy = false;
+
+function shareStreak(){
+  if(shareBusy)return;
+  shareBusy=true;
+  const CYAN='#00d4ff',W=1080,H=1920,MARGIN=80;
+  const canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  // Fundo
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'#090f1a');grad.addColorStop(1,'#0b0c10');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  const rg=ctx.createRadialGradient(W/2,H*0.42,0,W/2,H*0.42,680);
+  rg.addColorStop(0,'rgba(0,212,255,0.07)');rg.addColorStop(1,'rgba(0,212,255,0)');
+  ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+  // Helpers
+  function rr(x,y,w,h,r,fill,stroke,sw){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=sw||2;ctx.stroke();}}
+  function line(y){ctx.strokeStyle='rgba(0,212,255,0.18)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(MARGIN,y);ctx.lineTo(W-MARGIN,y);ctx.stroke();}
+  // Logo
+  ctx.fillStyle='#ffffff';ctx.font='bold 60px Outfit,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('TRAÇOS',W/2,148);
+  ctx.fillStyle=CYAN;ctx.font='24px Outfit,sans-serif';
+  ctx.fillText('MODO INFINITO',W/2,208);
+  line(256);
+  // Streak grande — sempre usa infLastStreak (palavras acertadas antes de perder)
+  const streak=infLastStreak;
+  ctx.fillStyle=CYAN;ctx.font=`bold ${streak>=100?220:260}px Outfit,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(String(streak),W/2,H*0.40);
+  ctx.fillStyle='#ffffff';ctx.font='bold 56px Outfit,sans-serif';
+  ctx.fillText('PALAVRAS ACERTADAS',W/2,H*0.40+160);
+  ctx.fillStyle='rgba(0,212,255,0.6)';ctx.font='30px Outfit,sans-serif';
+  ctx.fillText(streak===1?'1 PALAVRA EM SEQUÊNCIA':`${streak} PALAVRAS EM SEQUÊNCIA`,W/2,H*0.40+224);
+  line(H*0.62);
+  // Cards de stats
+  const s=st(),iP=s.infPlayed||0,iW=s.infWins||0,iBest=s.infBest||0;
+  const iWr=iP?Math.round(iW/iP*100):0;
+  const stats=[{v:String(iP),l:'JOGOS'},{v:`${iWr}%`,l:'DE VITÓRIA'},{v:String(iBest),l:'MELHOR'}];
+  const bW=280,bH=190,bG=24,totalBW=stats.length*bW+(stats.length-1)*bG;
+  const bStartX=W/2-totalBW/2,bY=H*0.66;
+  for(let i=0;i<stats.length;i++){
+    const bx=bStartX+i*(bW+bG);
+    rr(bx,bY,bW,bH,18,'rgba(0,212,255,0.06)','rgba(0,212,255,0.22)',2);
+    ctx.fillStyle='#ffffff';ctx.font='bold 56px Outfit,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(stats[i].v,bx+bW/2,bY+bH/2-16);
+    ctx.fillStyle='rgba(255,255,255,0.42)';ctx.font='20px Outfit,sans-serif';
+    ctx.fillText(stats[i].l,bx+bW/2,bY+bH/2+34);
+  }
+  // Footer
+  const fy=H-220;line(fy);
+  ctx.fillStyle='rgba(255,255,255,0.38)';ctx.font='24px Outfit,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('Jogue em',W/2,fy+54);
+  ctx.fillStyle='#ffffff';ctx.font='bold 50px Outfit,sans-serif';
+  ctx.fillText('tracos.hoje',W/2,fy+118);
+  // Share
+  canvas.toBlob(blob=>{
+    if(!blob){shareBusy=false;toast('Erro ao gerar imagem');return;}
+    const file=new File([blob],'tracos-sequencia.png',{type:'image/png'});
+    const release=()=>{shareBusy=false;};
+    if(window.matchMedia('(pointer: coarse)').matches){
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'Traços — Modo Infinito'}).then(release).catch(release);}else release();
+    }else{
+      const url=URL.createObjectURL(blob),a=document.createElement('a');
+      a.href=url;a.download='tracos-sequencia.png';a.style.display='none';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),3000);
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:'Traços'}).then(release).catch(release);}else{toast('Imagem salva!');release();}
+    }
+  },'image/png');
+}
+
 function share() {
   if (shareBusy) return;
   shareBusy = true;
@@ -2527,8 +2854,10 @@ function share() {
 document.getElementById('btn-ok').addEventListener('click', () => {
   if (G.status === 'playing') {
     submitGuess(getCellWord());
+  } else if (infiniteMode) {
+    pickNextInfiniteWord(); render();
   } else {
-    share(); // Chama a função de copiar o resultado
+    share();
   }
 });
 document.getElementById('btn-cheat-close').addEventListener('click',()=>closeOv('cheat-ov'));
@@ -2544,26 +2873,36 @@ document.getElementById('btn-cal').addEventListener('click',showCalendar);
 document.getElementById('btn-stats').addEventListener('click',showStats);
 document.getElementById('btn-modes').addEventListener('click',()=>document.getElementById('modes-ov').classList.add('show'));
 document.getElementById('btn-modes-close').addEventListener('click',()=>closeOv('modes-ov'));
-document.getElementById('mode-daily').addEventListener('click',()=>closeOv('modes-ov'));
+document.getElementById('mode-daily').addEventListener('click',()=>{ if(infiniteMode)exitInfinite(); else closeOv('modes-ov'); });
 document.getElementById('btn-share').addEventListener('click',share);
 document.getElementById('btn-mobile-share').addEventListener('click',share);
-document.getElementById('btn-end-close').addEventListener('click',()=>closeOv('end-ov'));
+document.getElementById('btn-share-streak').addEventListener('click',shareStreak);
+document.getElementById('btn-mobile-share-streak').addEventListener('click',shareStreak);
+document.getElementById('btn-end-close').addEventListener('click',()=>{if(infiniteMode)exitInfinite();else closeOv('end-ov');});
+document.getElementById('btn-next-word').addEventListener('click',()=>{closeOv('end-ov');pickNextInfiniteWord();render();});
+document.getElementById('mode-infinite').addEventListener('click',startInfinite);
 document.getElementById('btn-stats-close').addEventListener('click',()=>closeOv('stats-ov'));
 document.getElementById('att-drawer-handle').addEventListener('click',()=>{
   document.getElementById('att-drawer').classList.toggle('att-open');
 });
 document.getElementById('hard-toggle-input').addEventListener('change', function(){
+  const tab = activePassportTab;
   const tryingToActivate = this.checked;
-  // Não pode ATIVAR depois de começar, mas pode DESATIVAR a qualquer momento
-  if(tryingToActivate && G.attempts.length > 0){
+  // Só restringe ativação no modo diário quando já há tentativas
+  if(tab==='daily' && tryingToActivate && G.attempts.length > 0 && !infiniteMode){
     this.checked = false;
     toast('SÓ PODE ATIVAR ANTES DE JOGAR');
     return;
   }
-  hardMode = this.checked;
+  hardModes[tab] = this.checked;
   saveHardMode();
-  updateHardBadge();
-  toast(hardMode ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
+  // Sincroniza hardMode se o tab alterado for o modo em jogo atualmente
+  const isActiveMode = (tab==='daily' && !infiniteMode) || (tab==='inf' && infiniteMode);
+  if(isActiveMode){ hardMode = this.checked; updateHardBadge(); }
+  toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
+  updateHardToggleSub(tab);
+  // Mostrar tutorial na primeira ativação
+  if(this.checked && !st().hardTutSeen) setTimeout(showHardTutorial, 350);
 });
 document.getElementById('btn-cal-close').addEventListener('click',()=>closeOv('cal-ov'));
 document.getElementById('btn-today').addEventListener('click',returnToToday);
@@ -2571,7 +2910,11 @@ document.getElementById('tut-next').addEventListener('click',()=>{if(tutSlide<TU
 document.getElementById('tut-prev').addEventListener('click',()=>{if(tutSlide>0){tutSlide--;updateTut();}});
 document.getElementById('cal-prev').addEventListener('click',()=>{calM--;if(calM<0){calM=11;calY--;}renderCal();});
 document.getElementById('cal-next').addEventListener('click',()=>{calM++;if(calM>11){calM=0;calY++;}renderCal();});
-['end-ov','stats-ov','tut-ov','cal-ov','alpha-ov','hint-ov', 'cheat-ov'].forEach(id=>document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeOv(id);}));
+['end-ov','stats-ov','tut-ov','cal-ov','alpha-ov','hint-ov','cheat-ov','modes-ov','hard-tut-ov'].forEach(id=>document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeOv(id);}));
+document.getElementById('pp-tab-daily').addEventListener('click',()=>switchPassportTab('daily'));
+document.getElementById('pp-tab-inf').addEventListener('click',()=>switchPassportTab('inf'));
+document.getElementById('btn-hard-tut').addEventListener('click',e=>{e.stopPropagation();showHardTutorial();});
+document.getElementById('btn-hard-tut-close').addEventListener('click',closeHardTutorial);
 window.addEventListener('resize',()=>render());
 
 // ── Layout responsivo ──
@@ -2714,36 +3057,60 @@ async function fetchRealTime() {
 
 // ── Inicialização Instantânea ──
 
-// ── URL Hash (navegação por data) ──
-function dateToHash(dayN) {
-  // Converte dayNum para string "2026-03-10"
-  const d = new Date(ORIGIN.getTime() + dayN * 86400000);
-  const y = d.getUTCFullYear();
-  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
-  const dd = String(d.getUTCDate()).padStart(2, '0');
-  return y + '-' + m + '-' + dd;
+// ── URL routing (path-based) ──
+// tracos.net/          → redireciona para /diario
+// tracos.net/diario    → modo diário, hoje
+// tracos.net/diario/2026-03-10 → modo diário, dia de arquivo
+// tracos.net/infinito  → modo infinito
+// tracos.net/dupla     → dupla (em breve)
+// tracos.net/quadra    → quadra (em breve)
+
+const MODE_PATHS = {daily:'diario', inf:'infinito', dupla:'dupla', quadra:'quadra'};
+const PATH_MODES = {diario:'daily', infinito:'inf', dupla:'dupla', quadra:'quadra'};
+
+function dayNumToDateStr(dayN){
+  const d=new Date(ORIGIN.getTime()+dayN*86400000);
+  return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
 }
 
-function hashToDay(hash) {
-  // Converte "#2026-03-10" ou "2026-03-10" para dayNum, ou null se inválido
-  const str = hash.replace('#', '').trim();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(str)) return null;
-  const [y, m, d] = str.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m - 1, d));
-  if (isNaN(dt.getTime())) return null;
-  const dn = Math.floor((dt.getTime() - ORIGIN.getTime()) / 86400000);
-  if (dn < 0 || dn > TODAY) return null;
+function dateStrToDayNum(str){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(str))return null;
+  const[y,m,d]=str.split('-').map(Number);
+  const dt=new Date(Date.UTC(y,m-1,d));
+  if(isNaN(dt.getTime()))return null;
+  const dn=Math.floor((dt.getTime()-ORIGIN.getTime())/86400000);
+  if(dn<0||dn>TODAY)return null;
   return dn;
 }
 
-function setHash(dayN) {
-  if (dayN === TODAY) {
-    // Dia atual: URL limpa — pushState para o botão voltar funcionar
-    history.pushState({day: dayN}, '', window.location.pathname);
-  } else {
-    history.pushState({day: dayN}, '', '#' + dateToHash(dayN));
+function parsePath(){
+  // Suporte legado: se vier hash antigo (#2026-03-10), converte para path
+  if(window.location.hash&&/^#\d{4}-\d{2}-\d{2}$/.test(window.location.hash)){
+    const dn=dateStrToDayNum(window.location.hash.slice(1));
+    if(dn!==null)return {mode:'daily', day:dn, legacy:true};
   }
+  const parts=window.location.pathname.replace(/^\//, '').split('/').filter(Boolean);
+  const modeStr=parts[0]||'';
+  const mode=PATH_MODES[modeStr]||'daily';
+  const day=parts[1]?dateStrToDayNum(parts[1]):null;
+  return {mode, day, legacy:false};
 }
+
+function setPath(mode, dayN, replace){
+  const modePath=MODE_PATHS[mode]||'diario';
+  let path;
+  if(mode==='daily'){
+    path=(dayN!==undefined&&dayN!==null&&dayN!==TODAY)?'/diario/'+dayNumToDateStr(dayN):'/diario';
+  }else{
+    path='/'+modePath;
+  }
+  const state={mode, day:dayN??null};
+  if(replace)history.replaceState(state,'',path);
+  else history.pushState(state,'',path);
+}
+
+// Alias para manter compatibilidade interna
+function setHash(dayN){ setPath('daily', dayN); }
 
 function bootInstant() {
   loadHardMode();
@@ -2751,27 +3118,43 @@ function bootInstant() {
   const localNow = new Date();
   realNow = localNow;
   const s = st();
-  
+
   // Regra de Ouro (Anti-Trapaça Local): Bloqueia na mesma hora se voltar o tempo offline
   if (s.lastVerifiedDay !== undefined && dayNum(realNow) < s.lastVerifiedDay) {
-    realNow = dayToDate(s.lastVerifiedDay); 
+    realNow = dayToDate(s.lastVerifiedDay);
   }
-  
+
   TODAY = dayNum(realNow);
   currentDay = TODAY;
 
-  // Hash da URL define o dia (ex: #2026-03-10)
-  const hashDay = hashToDay(window.location.hash);
-  if (hashDay !== null && hashDay !== TODAY) {
-    currentDay = hashDay;
-    isArchive = true;
+  const {mode: urlMode, day: urlDay, legacy} = parsePath();
+
+  // Raiz / → redireciona silenciosamente para /diario
+  const rawPath = window.location.pathname;
+  if(rawPath==='/'||rawPath===''){
+    history.replaceState({mode:'daily',day:null},'','/diario');
+  } else if(legacy){
+    // Hash legado → converte para path limpo
+    setPath('daily', urlDay, true);
   }
 
-  // Desenha a tela IMEDIATAMENTE antes da internet carregar
-  loadDay(currentDay);
+  if(urlMode==='inf'){
+    // Carrega infinito direto da URL
+    if(!infiniteMode){infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;}
+    infiniteMode=true;
+    syncHardMode();
+    document.body.classList.add('infinite-active');
+    pickNextInfiniteWord();
+  } else {
+    // Modo diário
+    if(urlDay!==null){currentDay=urlDay;isArchive=true;}
+    loadDay(currentDay);
+  }
+
   render();
   requestAnimationFrame(alignCards);
-  
+  if(typeof updateModesModal==='function')updateModesModal();
+
   if (!s.tutorialSeen) {
     s.tutorialSeen = true;
     sv(s);
@@ -2821,12 +3204,25 @@ function bootInstant() {
 bootInstant();
 
 // Botão voltar/avançar do browser
-window.addEventListener('popstate', () => {
-  const hashDay = hashToDay(window.location.hash);
-  if (hashDay !== null && hashDay !== TODAY) {
-    fadeDay(() => { currentDay = hashDay; isArchive = true; loadDay(hashDay); render(); });
+window.addEventListener('popstate', (e) => {
+  const {mode: urlMode, day: urlDay} = parsePath();
+  if(urlMode==='inf'){
+    if(!infiniteMode){
+      const s=st();infStreak=s.infStreak||0;infPlayed=s.infPlayed||0;infWins=s.infWins||0;infBest=s.infBest||0;infGold=s.infGold||0;infHardPlayed=s.infHardPlayed||0;infHardWins=s.infHardWins||0;infLastStreak=s.infLastStreak||0;
+      infiniteMode=true;syncHardMode();document.body.classList.add('infinite-active');
+      pickNextInfiniteWord();render();updateModesModal();
+    }
   } else {
-    fadeDay(() => { currentDay = TODAY; isArchive = false; loadDay(TODAY); render(); });
+    if(infiniteMode){
+      busy=false;infiniteMode=false;infiniteWord='';syncHardMode();
+      document.body.classList.remove('infinite-active');closeOv('end-ov');closeOv('modes-ov');
+      G={attempts:[],status:'playing'};
+    }
+    if(urlDay!==null&&urlDay!==TODAY){
+      fadeDay(()=>{currentDay=urlDay;isArchive=true;loadDay(urlDay);render();updateModesModal();});
+    } else {
+      fadeDay(()=>{currentDay=TODAY;isArchive=false;loadDay(TODAY);render();updateModesModal();});
+    }
   }
 });
 
