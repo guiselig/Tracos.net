@@ -1435,6 +1435,22 @@ body.hard-active .logo-icon .sg-correct {
       </div>
 
     </div>
+
+    <hr style="border:none;border-top:1px solid var(--bdr);margin:0;">
+
+    <div class="hard-card" id="hard-toggle-row">
+      <div class="hard-toggle-row" style="border:none;background:none;padding:0;margin:0;width:100%;">
+        <div>
+          <div class="hard-toggle-label">🔥 MODO DIFÍCIL <button class="btn-hard-info" id="btn-hard-tut" title="Ver regras do modo difícil">?</button></div>
+          <div class="hard-toggle-sub" id="hard-toggle-sub">ATIVE ANTES DE COMEÇAR</div>
+        </div>
+        <label class="hard-toggle-switch">
+          <input type="checkbox" id="hard-toggle-input">
+          <span class="hard-toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
     <button class="btn-s" id="btn-modes-close">FECHAR</button>
   </div>
 </div>
@@ -1474,20 +1490,6 @@ body.hard-active .logo-icon .sg-correct {
     <!-- Painel: Em breve (Dupla / Quadra) -->
     <div class="stats-card" id="pp-panel-soon" style="display:none">
       <div class="pp-soon-msg" id="pp-soon-label">EM BREVE</div>
-    </div>
-
-    <!-- Card 2: Modo Difícil (só no painel Diário) -->
-    <div class="hard-card" id="hard-toggle-row">
-      <div class="hard-toggle-row" style="border:none;background:none;padding:0;margin:0;width:100%;">
-        <div>
-          <div class="hard-toggle-label">🔥 MODO DIFÍCIL <button class="btn-hard-info" id="btn-hard-tut" title="Ver regras do modo difícil">?</button></div>
-          <div class="hard-toggle-sub" id="hard-toggle-sub">ATIVE ANTES DE COMEÇAR</div>
-        </div>
-        <label class="hard-toggle-switch">
-          <input type="checkbox" id="hard-toggle-input">
-          <span class="hard-toggle-slider"></span>
-        </label>
-      </div>
     </div>
 
     <button class="btn-s" id="btn-stats-close" style="width:100%;max-width:440px;">FECHAR</button>
@@ -2330,11 +2332,11 @@ function renderPassportDaily(){
   const dist=sd.dist||{},lost=play-wins;
   const hardPlayed=sd.hardPlayed||0,hardWins=sd.hardWins||0,hardWr=hardPlayed?Math.round(hardWins/hardPlayed*100):0;
   document.getElementById('passport').innerHTML=`<div class="pp-row"><div class="pp-cell"><div class="pp-n">${wr}%</div><div class="pp-l">% DE VITÓRIA</div></div><div class="pp-cell"><div class="pp-n gold">✦ ${sd.goldGlyphs||0}</div><div class="pp-l">TRAÇOS DE OURO</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n">${play}</div><div class="pp-l">JOGOS</div></div><div class="pp-cell"><div class="pp-n">${wins}</div><div class="pp-l">VITÓRIAS</div></div><div class="pp-cell"><div class="pp-n">${sd.streak||0}</div><div class="pp-l">SEQUÊNCIA</div></div><div class="pp-cell"><div class="pp-n">${sd.best||0}</div><div class="pp-l">MELHOR</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardPlayed}</div><div class="pp-l">JOGOS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardWins}</div><div class="pp-l">VITÓRIAS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${hardWr}%</div><div class="pp-l">% VITÓRIA DIFÍCIL</div></div></div><div class="pp-info">${sd.firstDay?`📅 Desde: ${new Date(sd.firstDay).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}`:'Jogue para começar sua jornada!'}</div>`;
-  const total=wins+lost,mx=Math.max(1,...Object.values(dist).map(Number),lost);
+  const total=wins+lost;
   let html='';
-  for(let i=1;i<=MAX_ATT;i++){const v=dist[i]||0,pct=total?Math.round(v/total*100):0,bw=Math.round(v/mx*100);html+=`<div class="dist-row"><span class="dist-lbl">${i}</span><div class="dist-bar-wrap"><div class="dist-bar ok" style="width:${bw}%"></div></div><span class="dist-pct">${pct}%</span></div>`;}
-  const lpct=total?Math.round(lost/total*100):0,lw=Math.round(lost/mx*100);
-  html+=`<div class="dist-row"><span class="dist-lbl" style="color:var(--err)">✗</span><div class="dist-bar-wrap"><div class="dist-bar err" style="width:${lw}%"></div></div><span class="dist-pct" style="color:var(--err)">${lpct}%</span></div>`;
+  for(let i=1;i<=MAX_ATT;i++){const v=dist[i]||0,pct=total?Math.round(v/total*100):0;html+=`<div class="dist-row"><span class="dist-lbl">${i}</span><div class="dist-bar-wrap"><div class="dist-bar ok" style="width:${pct}%"></div></div><span class="dist-pct">${pct}%</span></div>`;}
+  const lpct=total?Math.round(lost/total*100):0;
+  html+=`<div class="dist-row"><span class="dist-lbl" style="color:var(--err)">✗</span><div class="dist-bar-wrap"><div class="dist-bar err" style="width:${lpct}%"></div></div><span class="dist-pct" style="color:var(--err)">${lpct}%</span></div>`;
   document.getElementById('dist-wrap').innerHTML=html;
 }
 
@@ -2344,34 +2346,32 @@ function renderPassportInf(){
   const iWr=iPlayed?Math.round(iWins/iPlayed*100):0,iLost=iPlayed-iWins;
   const iHardWr=iHardP?Math.round(iHardW/iHardP*100):0;
   document.getElementById('passport-inf').innerHTML=`<div class="pp-row"><div class="pp-cell"><div class="pp-n">${iWr}%</div><div class="pp-l">% DE VITÓRIA</div></div><div class="pp-cell"><div class="pp-n gold">✦ ${iGold}</div><div class="pp-l">TRAÇOS DE OURO</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n">${iPlayed}</div><div class="pp-l">JOGOS</div></div><div class="pp-cell"><div class="pp-n">${iWins}</div><div class="pp-l">VITÓRIAS</div></div><div class="pp-cell"><div class="pp-n" style="color:#00d4ff">${iBest}</div><div class="pp-l">MELHOR SEQUÊNCIA</div></div></div><div class="pp-row"><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${iHardP}</div><div class="pp-l">JOGOS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${iHardW}</div><div class="pp-l">VITÓRIAS DIFÍCIL</div></div><div class="pp-cell"><div class="pp-n" style="color:var(--err)">${iHardWr}%</div><div class="pp-l">% VITÓRIA DIFÍCIL</div></div></div><div class="pp-info">${s.infFirstDay?`📅 Desde: ${new Date(s.infFirstDay).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}`:(iPlayed?'Continue jogando para bater seu recorde!':'Inicie o Modo Infinito para começar!')}</div>`;
-  const dist=s.infDist||{},mx=Math.max(1,...Object.values(dist).map(Number),iLost);
+  const dist=s.infDist||{};
   let html='';
-  for(let i=1;i<=MAX_ATT;i++){const v=dist[i]||0,pct=iPlayed?Math.round(v/iPlayed*100):0,bw=Math.round(v/mx*100);html+=`<div class="dist-row"><span class="dist-lbl">${i}</span><div class="dist-bar-wrap"><div class="dist-bar ok" style="width:${bw}%"></div></div><span class="dist-pct">${pct}%</span></div>`;}
-  const lpct=iPlayed?Math.round(iLost/iPlayed*100):0,lw=Math.round(iLost/mx*100);
-  html+=`<div class="dist-row"><span class="dist-lbl" style="color:var(--err)">✗</span><div class="dist-bar-wrap"><div class="dist-bar err" style="width:${lw}%"></div></div><span class="dist-pct" style="color:var(--err)">${lpct}%</span></div>`;
+  for(let i=1;i<=MAX_ATT;i++){const v=dist[i]||0,pct=iPlayed?Math.round(v/iPlayed*100):0;html+=`<div class="dist-row"><span class="dist-lbl">${i}</span><div class="dist-bar-wrap"><div class="dist-bar ok" style="width:${pct}%"></div></div><span class="dist-pct">${pct}%</span></div>`;}
+  const lpct=iPlayed?Math.round(iLost/iPlayed*100):0;
+  html+=`<div class="dist-row"><span class="dist-lbl" style="color:var(--err)">✗</span><div class="dist-bar-wrap"><div class="dist-bar err" style="width:${lpct}%"></div></div><span class="dist-pct" style="color:var(--err)">${lpct}%</span></div>`;
   document.getElementById('inf-dist-wrap').innerHTML=html;
 }
 
-function updateHardToggleSub(tab){
+function updateHardToggleSub(){
   const sub=document.getElementById('hard-toggle-sub');
   const inp=document.getElementById('hard-toggle-input');
   const row=document.getElementById('hard-toggle-row');
   if(!sub||!inp||!row) return;
-  const isOn=hardModes[tab]||false;
+  const mode=infiniteMode?'inf':'daily';
+  const isOn=hardModes[mode]||false;
   inp.checked=isOn;
-  if(tab==='daily'){
-    const canActivate=G.attempts.length===0||infiniteMode;
+  if(mode==='daily'){
+    const canActivate=G.attempts.length===0;
     const isDisabled=!isOn&&!canActivate;
     row.classList.toggle('hard-toggle-disabled',isDisabled);
     if(canActivate) sub.textContent='ATIVE ANTES DE COMEÇAR';
     else if(isOn) sub.textContent='MODO ATIVO — PODE DESATIVAR';
     else sub.textContent='SÓ PODE ATIVAR ANTES DE JOGAR';
-  } else if(tab==='inf'){
-    row.classList.remove('hard-toggle-disabled');
-    sub.textContent=isOn?'MODO ATIVO — PODE DESATIVAR':'ATIVE PARA A PRÓXIMA PALAVRA';
   } else {
     row.classList.remove('hard-toggle-disabled');
-    sub.textContent='PREFERÊNCIA SALVA PARA QUANDO LANÇAR';
+    sub.textContent=isOn?'MODO ATIVO — PODE DESATIVAR':'ATIVE PARA A PRÓXIMA PALAVRA';
   }
 }
 
@@ -2384,7 +2384,6 @@ function switchPassportTab(tab){
   if(tab==='dupla'||tab==='quadra')document.getElementById('pp-soon-label').textContent=tab==='dupla'?'DUPLA — EM BREVE':'QUADRA — EM BREVE';
   if(tab==='daily')renderPassportDaily();
   if(tab==='inf')renderPassportInf();
-  updateHardToggleSub(tab);
 }
 
 function showStats(){
@@ -2952,7 +2951,7 @@ document.getElementById('btn-alpha-close').addEventListener('click',()=>closeOv(
 document.getElementById('btn-hint-close').addEventListener('click',()=>closeOv('hint-ov'));
 document.getElementById('btn-cal').addEventListener('click',showCalendar);
 document.getElementById('btn-stats').addEventListener('click',showStats);
-document.getElementById('btn-modes').addEventListener('click',()=>document.getElementById('modes-ov').classList.add('show'));
+document.getElementById('btn-modes').addEventListener('click',()=>{ updateHardToggleSub(); document.getElementById('modes-ov').classList.add('show'); });
 document.getElementById('btn-modes-close').addEventListener('click',()=>closeOv('modes-ov'));
 document.getElementById('mode-daily').addEventListener('click',()=>{ if(infiniteMode)exitInfinite(); else closeOv('modes-ov'); });
 document.getElementById('btn-share').addEventListener('click',share);
@@ -2967,22 +2966,18 @@ document.getElementById('att-drawer-handle').addEventListener('click',()=>{
   document.getElementById('att-drawer').classList.toggle('att-open');
 });
 document.getElementById('hard-toggle-input').addEventListener('change', function(){
-  const tab = activePassportTab;
+  const mode = infiniteMode ? 'inf' : 'daily';
   const tryingToActivate = this.checked;
-  // Só restringe ativação no modo diário quando já há tentativas
-  if(tab==='daily' && tryingToActivate && G.attempts.length > 0 && !infiniteMode){
+  if(mode==='daily' && tryingToActivate && G.attempts.length > 0){
     this.checked = false;
     toast('SÓ PODE ATIVAR ANTES DE JOGAR');
     return;
   }
-  hardModes[tab] = this.checked;
+  hardModes[mode] = this.checked;
   saveHardMode();
-  // Sincroniza hardMode se o tab alterado for o modo em jogo atualmente
-  const isActiveMode = (tab==='daily' && !infiniteMode) || (tab==='inf' && infiniteMode);
-  if(isActiveMode){ hardMode = this.checked; updateHardBadge(); }
+  hardMode = this.checked; updateHardBadge();
   toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
-  updateHardToggleSub(tab);
-  // Mostrar tutorial na primeira ativação
+  updateHardToggleSub();
   if(this.checked && !st().hardTutSeen) setTimeout(showHardTutorial, 350);
 });
 document.getElementById('btn-cal-close').addEventListener('click',()=>closeOv('cal-ov'));
