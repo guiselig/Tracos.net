@@ -774,6 +774,8 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   /* Progresso e células */
   .prog { margin-bottom: 16px; }
   .cells-row { margin-bottom: 14px; gap: clamp(4px, 1.5vw, 8px); }
+  /* Skip: sem margem do topo do card, bastante espaço para os pontos */
+  .btn-skip { margin-top: 2px !important; margin-bottom: 20px !important; }
   .cell-box {
     width: clamp(50px, 15vw, 68px);
     height: clamp(50px, 15vw, 68px);
@@ -1360,7 +1362,7 @@ body.hard-active .logo-icon .sg-correct {
   <button id="btn-mobile-share-streak" style="display:none; appearance: none; -webkit-appearance: none; background-color: #00b8d9; color: #000; border: none; width: 95%; padding: 20px 10px; font-size: clamp(12px, 3.2vw, 15px); border-radius: 10px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0,212,255,0.3); white-space: nowrap;">
     📤 COMPARTILHAR SEQUÊNCIA
   </button>
-  <button id="btn-mobile-share" style="appearance: none; -webkit-appearance: none; background-color: #2e5c2b; color: #ffffff; border: none; width: 95%; padding: 25px 10px; font-size: clamp(13px, 3.5vw, 16px); border-radius: 10px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 15px rgba(46, 92, 43, 0.3); white-space: nowrap;">
+  <button id="btn-mobile-share" style="appearance: none; -webkit-appearance: none; background-color: #2e5c2b; color: #ffffff; border: none; width: 95%; padding: 25px 10px; font-size: clamp(13px, 3.5vw, 16px); border-radius: 10px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 15px rgba(46, 92, 43, 0.3); white-space: nowrap; display: flex; align-items: center; justify-content: center;">
     COMPARTILHAR
   </button>
 </div>
