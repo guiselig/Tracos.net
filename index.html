@@ -774,8 +774,8 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   /* Progresso e células */
   .prog { margin-bottom: 16px; }
   .cells-row { margin-bottom: 14px; gap: clamp(4px, 1.5vw, 8px); }
-  /* Skip: sem margem do topo do card, bastante espaço para os pontos */
-  .btn-skip { margin-top: 2px !important; margin-bottom: 20px !important; }
+  /* Skip: sem margem do topo do card, espaço pequeno para os pontos */
+  .btn-skip { margin-top: 2px !important; margin-bottom: 8px !important; }
   .cell-box {
     width: clamp(50px, 15vw, 68px);
     height: clamp(50px, 15vw, 68px);
@@ -784,8 +784,11 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
 
   /* Tentativas — scroll próprio no mobile */
   #attempts-section {
+    flex-direction: column;
+    align-items: center;
     overflow-y: auto;
-    max-height: clamp(80px, 18vh, 160px);
+    overflow-x: hidden;
+    max-height: clamp(90px, 20vh, 170px);
     width: 100%;
     padding: 4px 12px;
     box-sizing: border-box;
