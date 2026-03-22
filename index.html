@@ -2444,7 +2444,7 @@ function updateHardToggleSub(){
     else sub.textContent='';
   } else {
     row.classList.remove('hard-toggle-disabled');
-    sub.textContent=isOn?'MODO ATIVO — PODE DESATIVAR':'ATIVE PARA A PRÓXIMA PALAVRA';
+    sub.textContent=isOn?'MODO ATIVO — PODE DESATIVAR':'';
   }
 }
 
@@ -3106,13 +3106,14 @@ document.getElementById('hard-toggle-input').addEventListener('change', function
   const tryingToActivate = this.checked;
   if(mode==='daily' && tryingToActivate && G.attempts.length > 0){
     this.checked = false;
-    toast('SÓ PODE ATIVAR ANTES DE JOGAR');
+    toast('DISPONÍVEL APENAS ANTES DE JOGAR');
     return;
   }
   hardModes[mode] = this.checked;
   saveHardMode();
   hardMode = this.checked; updateHardBadge();
-  toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
+  if(infiniteMode && this.checked) toast('🔥 MODO DIFÍCIL — ATIVO NA PRÓXIMA PALAVRA');
+  else toast(this.checked ? '🔥 MODO DIFÍCIL ATIVADO' : 'MODO NORMAL ATIVADO');
   updateHardToggleSub();
   if(this.checked && !st().hardTutSeen) setTimeout(showHardTutorial, 350);
 });
