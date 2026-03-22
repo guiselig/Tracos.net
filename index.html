@@ -605,7 +605,7 @@ main[data-letters="7"] {
 .btn-use-lf { background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.4); color:#00d4ff; font-family:var(--font-hd); font-size:9px; font-weight:700; letter-spacing:1.5px; padding:6px 11px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:background .15s; }
 .btn-use-lf:hover { background:rgba(0,212,255,.22); }
 /* Pular */
-.btn-skip { display:none; background:rgba(0,212,255,.06); border:1px solid rgba(0,212,255,.28); color:#00d4ff; font-family:var(--font-hd); font-size:10px; font-weight:700; letter-spacing:2px; padding:9px; border-radius:var(--r); cursor:pointer; width:100%; transition:all .15s; margin-top:6px; margin-bottom:10px; }
+.btn-skip { display:none; background:rgba(0,212,255,.06); border:1px solid rgba(0,212,255,.28); color:#00d4ff; font-family:var(--font-hd); font-size:10px; font-weight:700; letter-spacing:2px; padding:9px; border-radius:var(--r); cursor:pointer; width:100%; transition:all .15s; margin-top:10px; }
 .btn-skip:hover:not(:disabled) { background:rgba(0,212,255,.14); }
 .btn-skip:disabled { opacity:.28; cursor:not-allowed; }
 body.infinite-active .btn-skip { display:block; }
@@ -3152,6 +3152,9 @@ function layoutMobile(){
     }
     // Teclado → dentro do card direito
     if(kbWrap.parentElement!==rightCard) rightCard.appendChild(kbWrap);
+    // Skip button → abaixo do teclado no mobile
+    const btnSkip=document.getElementById('btn-skip');
+    if(btnSkip && btnSkip.parentElement!==rightCard) rightCard.appendChild(btnSkip);
     // Footer → dentro do card direito (após teclado)
     if(footerEl && footerEl.parentElement!==rightCard) rightCard.appendChild(footerEl);
     // Tentativas → entre main e card direito (acima do card, fora de ambos)
@@ -3165,6 +3168,10 @@ function layoutMobile(){
     if(headerRow&&dayLbl.parentElement!==headerRow) headerRow.appendChild(dayLbl);
     if(btns.parentElement!==rightCol) rightCol.insertBefore(btns,rightCol.firstChild);
     if(attempts.parentElement!==rightCol) rightCol.appendChild(attempts);
+    // Restaura btn-skip para dentro do right-col (após btn-ok)
+    const btnSkip=document.getElementById('btn-skip');
+    const btnOk=document.getElementById('btn-ok');
+    if(btnSkip && btnOk && btnSkip.parentElement!==rightCol) rightCol.insertBefore(btnSkip,btnOk.nextSibling);
     if(rightCard.parentElement!==mainEl) mainEl.appendChild(rightCard);
   }
 }
