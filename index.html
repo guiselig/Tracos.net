@@ -1573,6 +1573,20 @@ body.hard-active .logo-icon .sg-correct {
           <div class="inf-tut-rule-desc">Se não adivinhar em 6 tentativas, a sequência encerra. Você pode compartilhá-la e tentar de novo!</div>
         </div>
       </div>
+      <div class="inf-tut-rule">
+        <div class="inf-tut-rule-icon">💡</div>
+        <div class="inf-tut-rule-body">
+          <div class="inf-tut-rule-name">5 DICAS POR SEQUÊNCIA</div>
+          <div class="inf-tut-rule-desc">Você tem 5 dicas disponíveis a qualquer momento: letras únicas, vogais, primeira letra, eliminar letras do teclado e revelar uma posição. Use com sabedoria — elas resetam ao perder a sequência.</div>
+        </div>
+      </div>
+      <div class="inf-tut-rule">
+        <div class="inf-tut-rule-icon">🃏</div>
+        <div class="inf-tut-rule-body">
+          <div class="inf-tut-rule-name">CORINGA — PULAR</div>
+          <div class="inf-tut-rule-desc">Um coringa por sequência: pule uma palavra sem penalidade. A sequência continua como se você tivesse acertado.</div>
+        </div>
+      </div>
     </div>
     <button class="btn-s" id="btn-inf-tut-close">ENTENDIDO</button>
   </div>
@@ -1657,9 +1671,9 @@ body.hard-active .logo-icon .sg-correct {
 <!-- Modal: alfabeto -->
 <div class="ov" id="alpha-ov">
   <div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:920px;">
-    <div id="alpha-preview" style="display:none;flex-direction:column;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:10px 16px;">
-      <span style="font-family:var(--font-dig);font-size:8px;letter-spacing:2px;color:var(--txt-dim);text-transform:uppercase;">Traços Atuais</span>
-      <div id="alpha-preview-glyph" style="display:flex;gap:4px;justify-content:center;transform-origin:center top;"></div>
+    <div id="alpha-preview" style="display:none;flex-direction:column;align-items:center;gap:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:8px 14px;">
+      <span style="font-family:var(--font-dig);font-size:7px;letter-spacing:2px;color:var(--txt-dim);text-transform:uppercase;">Traços Atuais</span>
+      <div id="alpha-preview-glyph" style="display:flex;gap:3px;justify-content:center;transform-origin:center top;overflow:hidden;"></div>
     </div>
     <div class="alpha-modal">
       <div class="modal-title">ALFABETO</div>
@@ -2488,7 +2502,7 @@ function switchPassportTab(tab){
 }
 
 function showStats(){
-  switchPassportTab(activePassportTab);
+  switchPassportTab(infiniteMode ? 'inf' : 'daily');
   document.getElementById('stats-ov').classList.add('show');
 }
 
@@ -2515,14 +2529,14 @@ function showAlpha(){
     previewGlyph.appendChild(clone);
     preview.style.display='flex';
     requestAnimationFrame(()=>{
-      const gw=clone.scrollWidth;
+      const gw=clone.scrollWidth||clone.offsetWidth;
+      const gh=clone.scrollHeight||clone.offsetHeight;
       if(gw>0){
-        const maxW=200;
-        const sc=Math.min(0.28,maxW/gw);
+        const sc=0.22;
         clone.style.transform=`scale(${sc})`;
         clone.style.transformOrigin='center top';
-        const h=clone.getBoundingClientRect().height;
-        previewGlyph.style.height=h+'px';
+        previewGlyph.style.width  = Math.round(gw*sc)+'px';
+        previewGlyph.style.height = Math.round(gh*sc)+'px';
       }
     });
   } else {
