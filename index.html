@@ -2613,6 +2613,7 @@ function useInfHint(i){
   }
   infHintsUsed[i]=true;
   renderInfHints();
+  saveInfCurrent();
 }
 function renderInfHints(){
   const list=document.getElementById('inf-lf-list');
@@ -2635,7 +2636,9 @@ function showInfHints(){renderInfHints();document.getElementById('inf-lf-ov').cl
 function useSkip(){
   if(infSkipUsed||!infiniteMode||G.status!=='playing')return;
   infSkipUsed=true;
-  pickNextInfiniteWord();render();
+  pickNextInfiniteWord();
+  saveInfCurrent();
+  render();
 }
 
 // ── Tutorial ──
