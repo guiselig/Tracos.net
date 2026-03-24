@@ -2515,9 +2515,15 @@ function showAlpha(){
     previewGlyph.appendChild(clone);
     preview.style.display='flex';
     requestAnimationFrame(()=>{
-      const pw=preview.clientWidth-32;
       const gw=clone.scrollWidth;
-      if(gw>0){const sc=Math.min(1,pw/gw*0.9);clone.style.transform=`scale(${sc})`;}
+      if(gw>0){
+        const maxW=200;
+        const sc=Math.min(0.28,maxW/gw);
+        clone.style.transform=`scale(${sc})`;
+        clone.style.transformOrigin='center top';
+        const h=clone.getBoundingClientRect().height;
+        previewGlyph.style.height=h+'px';
+      }
     });
   } else {
     preview.style.display='none';
