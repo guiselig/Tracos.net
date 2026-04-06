@@ -2083,12 +2083,7 @@ function sv(d){try{localStorage.setItem('tracos_v2',JSON.stringify(d))}catch{}}
 
 function loadDay(day){
   const s=st(),d=(s.days||{})[day]||{};
-  // Descarta o estado salvo se a palavra mudou (ex: lista atualizada ou bug de repetição)
-  if(d.word && d.word!==getTarget(day)){
-    G.attempts=[];G.status='playing';
-  } else {
-    G.attempts=d.attempts||[];G.status=d.status||'playing';
-  }
+  G.attempts=d.attempts||[];G.status=d.status||'playing';
   recompute();resetCells();
 }
 
@@ -2123,7 +2118,7 @@ function saveDay(){
   const savedHints = (s.days[currentDay] && s.days[currentDay].hints) ? s.days[currentDay].hints : [];
   
   // Salva as tentativas, o status e devolve as dicas pro cofre
-  s.days[currentDay]={word:getTarget(currentDay),attempts:G.attempts,status:G.status, hints: savedHints};
+  s.days[currentDay]={attempts:G.attempts,status:G.status, hints: savedHints};
   
   if(!isArchive&&G.status!=='playing'){
     const sd=s.stats||{};
