@@ -868,6 +868,7 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   #left-col .glass-card {
     flex-direction: column;
     gap: 6px;
+    padding: 0;
     background: transparent;
     border: none;
     border-radius: 0;
@@ -980,12 +981,10 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  margin-top: -10px;
-  transition: grid-template-rows .35s ease-out, margin-top .35s ease-out;
+  transition: grid-template-rows .35s ease-out;
 }
 #hard-badge-wrap.visible {
   grid-template-rows: 1fr;
-  margin-top: 0;
 }
 #hard-badge {
   display: flex;
@@ -996,7 +995,7 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   font-weight: 700;
   letter-spacing: 2px;
   color: var(--err);
-  padding: 4px 14px;
+  padding: 8px 14px 4px;
   border: 1px solid rgba(248,81,73,.35);
   border-radius: 20px;
   background: rgba(248,81,73,.08);
@@ -1333,7 +1332,7 @@ body.hard-active .logo-icon .sg-correct {
         <div class="day-lbl" id="day-lbl"></div>
       </div>
 
-      <div class="glass-card" style="flex-direction:column;gap:10px;">
+      <div class="glass-card" style="flex-direction:column;gap:0;">
         <div class="glyph-row" id="glyph-row"></div>
         <div id="hard-badge-wrap"><div id="hard-badge">🔥 MODO DIFÍCIL</div></div>
       </div>
