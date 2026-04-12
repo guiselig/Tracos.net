@@ -1730,12 +1730,21 @@ body.hard-active .logo-icon .sg-correct {
   </div>
 </div>
 
+<div class="ov" id="dict-error-ov">
+  <div class="modal">
+    <div class="end-icon" style="margin-bottom: -10px;">📖</div>
+    <div class="end-title" style="color: var(--err);">DICIONÁRIO INDISPONÍVEL</div>
+    <div class="end-sub" style="font-size: 13px; margin: 10px 0 20px;">
+      Impossível conectar com o Dicionário. Verifique sua Internet.
+    </div>
+    <button class="btn-s" onclick="location.reload()">RECARREGAR</button>
+  </div>
+</div>
+
 <!-- Dicionário -->
 <script src="dicionario.js"></script>
 <!-- Script principal -->
 <script>
-// ── Configuração e constantes ──
-const CFG={DAILY_URL:'',VALID_URL:''};
 // ── Segmentos SVG ──
 const SEGS={a:'M4,2 L36,2',b:'M38,4 L38,28',c:'M38,32 L38,56',d:'M4,58 L36,58',e:'M2,32 L2,56',f:'M2,4 L2,28',g1:'M4,30 L18,30',g2:'M22,30 L36,30',i:'M20,4 L20,28',l:'M20,32 L20,56',ul1:'M3,4 L19,28',ul2:'M19,4 L3,28',ur1:'M21,4 L37,28',ur2:'M37,4 L21,28',ll1:'M3,32 L19,56',ll2:'M19,32 L3,56',lr1:'M21,32 L37,56',lr2:'M37,32 L21,56'};
 // ── Mapeamento de letras ──
@@ -1743,13 +1752,22 @@ const ALL_S=Object.keys(SEGS);
 const LS={A:['a','f','b','g1','g2','e','c'],B:['a','b','g2','c','d','i','l'],C:['a','f','e','d'],D:['a','b','c','d','i','l'],E:['a','f','g1','g2','e','d'],F:['a','f','g1','g2','e'],G:['a','f','e','d','c','g2'],H:['f','b','g1','g2','e','c'],I:['a','d','i','l'],J:['b','c','d','e'],K:['f','e','g1','ur2','lr1'],L:['f','e','d'],M:['f','ul1','ur2','b','e','c'],N:['f','ul1','lr1','b','e','c'],O:['a','f','b','e','c','d'],P:['a','f','b','g1','g2','e'],Q:['a','f','b','e','c','d','lr1'],R:['a','f','b','g1','g2','e','lr1'],S:['a','f','g1','g2','c','d'],T:['a','i','l'],U:['f','b','e','c','d'],V:['f','b','ll1','lr2'],W:['f','b','e','c','ll2','lr1'],X:['ul1','ur2','ll2','lr1'],Y:['ul1','ur2','l'],Z:['a','ur2','ll2','d']};
 const segsOf=ch=>LS[ch]||LS.A;
 
-const COMMON=["ABRIR","AGORA","AINDA","ALUNO","AMIGO","AMORA","ANDAR","AREIA","BANCO","BARCO","BLOCO","BOCAL","BONDE","BRAVO","BREVE","BRISA","BURRO","BUSCA","CALMA","CAMPO","CANAL","CANTO","CARNE","CARRO","CARTA","CAUSA","CERCA","CERTO","CHAVE","CHUVA","CINCO","CIRCO","COBRA","COISA","CONTA","CORDA","CORPO","CORTE","COSTA","CRISE","CURVA","DELTA","DENTE","DESDE","DEVER","DUELO","ELITE","ETAPA","EXAME","EXTRA","FALAR","FALHA","FALTA","FARRA","FAVOR","FERRO","FESTA","FIBRA","FIRME","FLOCO","FOLHA","FORCA","FORTE","FRACO","FRASE","FRUTA","FUNDO","FURTO","GANHO","GARFO","GARRA","GENIO","GERAL","GORDO","GRADE","GRAMA","GREVE","GRIPE","GRUPO","HEROI","HOTEL","ICONE","IGUAL","LAPSO","LARGO","LAZER","LENDA","LENHA","LINHA","LISTA","LIVRE","LOCAL","LONGO","LUGAR","LUNAR","MANHA","MARCO","MASSA","MEDIA","MELAO","METAL","MILHO","MOEDA","MOLHO","MONTE","MORAL","MUNDO","MUSGO","NOBRE","NOITE","NORTE","ORDEM","PAGAR","PALHA","PAPEL","PARAR","PEDRA","PEGAR","PILAR","PINHO","PISTA","PLANO","PLENO","PODER","PONTO","PORTA","POUSO","PRADO","PRAZO","PRECO","PRIMA","PROVA","QUASE","QUEDA","RAIVA","RAPAZ","RAZAO","REAIS","REINO","RELVA","RISCO","RIVAL","SAGAZ","SALTO","SAUDE","SENSO","SERVO","SIGNO","SOBRE","SORTE","SUBIR","SURDO","TANTO","TARDE","TEMPO","TENDA","TENSO","TERRA","TIGRE","TOTAL","ULTRA","UNIAO","USUAL","VALER","VAPOR","VERDE","VERSO","VIGOR","VISAO","VIVER","VOCAL","VOTAR","XEQUE","SENHA","CALOR","CHATO","CLARO","CORVO","CRIME","CRUEL","CULPA","CUNHA","DIQUE","DISCO","DOBRA","DOGMA","DUPLO","ENJOO","FEBRE","FINAL","FIRMA","FOICE","FOSCO","FREVO","FUGIR","FUNIL","FUZIL","GANSO","GEMEO","GENRO","GESTO","GIRAR","HONRA","HUMUS","INDIO","JUNCO","JUNTO","JURAR","LABIO","LACRE","LARVA","LASER","LEITO","LESMA","LESTE","LEVAR","LIMAO","LIMPO","LINCE","LITRO","LIVRO","LOMBO","LOUCA","LOURO","LUCRO","LUTAR","MALHA","MAMAO","MANGA","MANIA","MANSO","MANTO","MOGNO","MOLDE","MORAR","MORSA","MOSCA","MULTA","NADAR","NAVIO","NEGAR","NEGRO","NERVO","NOCAO","NOSSO","NUVEM","OLHAR","OMEGA","OPACO","ORGAO","OUSAR","OUVIR","OXIDO","PACTO","PADRE","PALMO","ABERTO","ABRIGO","ACESSO","ACORDO","AGENTE","ALEGRE","ALFACE","ALTURA","AMANTE","ANCORA","ANTIGO","APENAS","BANANA","BATATA","BELEZA","BONITO","BRASIL","CABELO","CANETA","CASACO","CENTRO","CINEMA","CIDADE","CLASSE","COLEGA","COLUNA","COMIDA","COMPRA","DEBATE","DENTRO","DEPOIS","DIARIO","DOENTE","EMBORA","EMPATE","ENIGMA","ENSINO","EQUIPE","ESCOLA","ESCURO","ESPACO","ESTADO","ESTILO","ETERNO","EVENTO","FAMOSO","FERIDA","FILTRO","FLECHA","FRANGO","GELADO","HUMANO","IDIOMA","IMAGEM","INICIO","JANELA","JORNAL","LEITOR","LINGUA","MACACO","MELHOR","MENINO","MEDICO","MOTIVO","MUSICA","NATIVO","NORMAL","NOVELA","OBJETO","OFERTA","PANICO","PANELA","PARQUE","PAREDE","PARTIR","PERIGO","PESSOA","PILOTO","PINTOR","PLANTA","POESIA","PRAZER","PREDIO","QUADRO","QUARTO","QUEIXA","RAPIDO","RECUSA","REGIME","REMOTO","ROTINA","SANGUE","SEGURO","SENHOR","SENSOR","SERENO","SERVIR","SOLTAR","SONHAR","TALVEZ","TECIDO","TENTAR","TIMIDO","TOPICO","TORNAR","ULTIMO","URBANO","VAREJO","VELUDO","VERSAO","VIAGEM","VISITA","VISUAL","AJUDAR","ALARME","ALIVIO","ALTIVO","AMARGO","AMPARO","ANIMAR","APAGAR","APERTO","APOIAR","APOSTA","ARVORE","ATACAR","BARRIL","BASICO","BATIDA","BEBIDA","BOLETO","BONECA","BOSQUE","CAMISA","CANECO","CANELA","CAPOTE","CARECA","CAROCO","CARONA","CASULO","CATIVO","CAVALO","CEBOLA","CEDULA","CHAMAR","CHEGAR","CHEQUE","CIGANO","COBRAR","COELHO","COLHER","COLONO","COMETA","COMPOR","CONTER","CONTRA","CORUJA","CRIADO","CRISTA","CRUZAR","DANCAR","DECAIR","DESCER","DESEJO","DEVOTO","DIFUSO","DIRETO","DOBRAR","DOMINA","DORMIR","DUREZA","ELENCO","ELEVAR","EMITIR","ENORME","ENSAIO","ENTRAR","ENVIAR","ERRADO","ESCADA","ESCOAR","ESPETO","ESTACA","EXIBIR","FABULA","FALTAR","FATIAR","FECHAR","FERVER","FILIAR","FINCAR","FINGIR","FISCAL","FLORES","FLUIDO","FORCAR","FORJAR","GALERA","GALOPE","GATUNO","GIRINO","GRAMPO","GRANEL","GRILAR","GROSSO","HABITO","HERDAR","IMPETO","IMPURO","INCISO","INERTE","ISOLAR","JABUTI","JOELHO","JUNTAR","JURADO","LABUTA","LADRAO","LAMBER","LAVABO","LAVRAR","LEGADO","LIDERA","LIVRAR","LONTRA","LOUVAR","LUSTRE","MALUCO","MANADA","MANEJO","MANTER","MARCAR","MASCAR","MATUTO","MENSAL","METIDO","MINUTO","MOLDAR","MORADA","MORDER","MORENO","MOSTRA","MUDADO","MULHER","NARRAR","NUCLEO","OBTUSO","OCUPAR","OFICIO","OPERAR","ORACAO","ORNATO","OTARIO","PACATO","PADRAO","PALETO","PALITO","PASTAR","PATETA","PATIFE","PATRAO","PELADO","PENSAR","PERDER","PERENE","PEROBA","PINICO","PIPOCA","POEIRA","POLIDO","POUPAR","PREGAR","PREMIO","QUEIJO","QUERER","SACOLA","TAINHA","VADEAR","ACORDAR","AFIRMAR","AGENCIA","ALEGRIA","ALIANCA","AMPLIAR","BARULHO","BATALHA","BIZARRO","CALCADO","CANDURA","CANTORA","CARACOL","CARIOCA","CASTELO","CIMENTO","COBERTA","COMENTA","CORAGEM","CORVETA","DECRETO","DELICIA","DEMITIR","DESTINO","DIREITO","DOMINIO","EMPRESA","ENVOLVE","ESPELHO","ESTRADA","FAMILIA","FOGUETE","GOVERNO","IMPEDIR","INGRATO","JARDINS","LIGACAO","MACHADO","MAQUINA","MERCADO","MILAGRE","NAVEGAR","NERVOSO","ORGULHO","PALAVRA","PLANETA","POLICIA","PROJETO","QUESTAO","QUINTAL","RECORTE","RESERVA","ROTEIRO","SISTEMA","SIMBOLO","SORRISO","SUCESSO","TECNICA","TEMPERO","TURBINA","URGENTE","VEGETAL","VESTIDO","ACALMAR","ACOLHER","ADORNAR","ALERTAR","ANUNCIO","APANHAR","APROVAR","ARRASAR","ASPIRAR","ASSINAR","ASSUMIR","ATINGIR","AVALIAR","BRINCAR","CAMINHO","CENTRAR","CHARADA","CHARUTO","CINTURA","CLAREZA","COLAPSO","CORRIDA","CORTEJO","COSTURA","CRIANCA","CULTURA","DEMANDA","DEPENDE","DERRAMA","DESAFIO","DESCIDA","DOMINAR","ENGANAR","ENTERRO","GUARDAR","INSONIA","JOELHOS","LAMPADA","LARGURA","LATERAL","LAVOURA","LEGENDA","LICENCA","LIXEIRA","LOMBADA","MONTADO","OCEANOS","ORIGAMI","PANELAS","PROTEGE","RELIGAO","SAUDADE","SEGREDO","SERVICO","SOLUCAO","TABERNA","VIATURA","VIZINHO","BARRACA","CASEIRO","COMBATE","CRIADOR","DELEGAR","HABITAT","IMPULSO","JORNADA","LADEIRA","MANCHAS","OBSCURO","ACASO","AGUDO","ALGUM","ALTAR","AMENO","AMPLO","ANZOL","APELO","ASSAR","AVARO","AVISO","BAIXO","BANHA","BICHO","BISPO","BOLSA","BOMBA","BRUXO","BUCHO","CACAU","CACTO","CALDO","CAPIM","CAULE","CIFRA","CLERO","COCAR","COICE","CUTIA","DARDO","DEDAL","DRENO","DUQUE","FARDO","FAROL","FATOR","FEUDO","FOBIA","FOCAR","GRATO","ABUTRE","ADOTAR","AFAGAR","AGITAR","AMEIXA","ANCIAO","ANTENA","AREJAR","ATERRO","AVARIA","BAINHA","BALCAO","BARATA","BEIRAR","BUZINA","CABIDE","CABINE","CACADA","CADETE","ABOBORA","ACABADO","ACENDER","ACERTAR","ACHATAR","ADORADO","AFASTAR","AGARRAR","ALARGAR","AMASSAR","AMPARAR","APARTAR","APOSTAR","ATERRAR","ATREVER","AUDACIA","AVANCAR","AVENIDA","AVISTAR","BARBEAR","BEDUINO","BORDADO","CADEADO","CADEIRA","CAMPINA","CANTINA","CASINHA","CAVERNA","CELEIRO","CENTAVO","CERTEZA","CHAMADO","COBERTO","COLEGIO","COLOCAR","COMECAR","CONDUTA","CONFIAR","CONFUSO","CONTATO","CONTUDO","CONVITE","CORRETO","CORTADO","CREDITO","COVARDE","COZINHA","CRITICO","CUIDADO","CURIOSO","DEBATER","DECIDIR","DESCASO","DESERTO","DESFILE","DESPESA","DESVIAR","DEVAGAR","DEZENAS","DIRECAO","DIVERSO","DOURADO","ELOGIAR","ENCARAR","ENJOADO","ENSINAR","ENTREGA","ESCAVAR","ESPERAR","ESPONJA","ESTEIRA","ESTICAR","EXAUSTO","FECHADO","FEITICO","FLORIDO","FUTEBOL","GALINHA","GARAGEM","GERACAO","GOSTOSO","GRAFICO","GUARANA","HONESTO","HOSPEDE","HUMILDE","IMPOSTO","INCHADO","INFARTO","INTEIRO","INVERNO","ISOLADO","JAQUETA","JOGADOR","JUBILEU","JULGADO","LAMPEJO","LARANJA","LEGUMES","LIMPEZA","LOCUTOR","MAGOADO","MALVADO","MANEIRA","MARISCO","MATERIA","MEDROSO","MENTIRA","MIUDEZA","MOCINHO","MODERNO","MORADOR","MUDANCA","MUSCULO","NASCIDO","NATURAL","NEGOCIO","NITIDEZ","NOTICIA","OCUPADO","OFENDER","OPINIAO","PALMITO","PARTIDA","PASSADO","PASTOSO","PERDIDO","PICANTE","PINTADO","PRIVADO","PRODUTO","PROXIMO","PUBLICO","QUERIDA","RECEBER","RECHEIO","RESGATE","REUNIAO","RIBEIRO","RIQUEZA","ROSARIO","SALARIO","SAUDOSO","SENSATO","SERESTA","SIMPLES","SINUOSO","SOBRADO","SONHADO","SUJEITO","TABLETE","TAPIOCA","TELHADO","TERRACO","TRAFEGO","TRAIDOR","TRIBUTO","TROCADO","UNIDADE","VAIDADE","VERDADE","VIVEIRO","VONTADE","ZANGADO","OUTUBRO"];
-let DAILY_POOL=[...COMMON],VALID_SET=new Set(typeof DICIONARIO!=='undefined'?DICIONARIO:COMMON);
+// Verificar disponibilidade do dicionário
+if(typeof COMUM==='undefined'||typeof DICIONARIO==='undefined'){
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('dict-error-ov').classList.add('show');
+  });
+}
+let DAILY_POOL=typeof COMUM!=='undefined'?[...COMUM]:[];
+let VALID_SET=typeof COMUM!=='undefined'&&typeof DICIONARIO!=='undefined'
+  ?new Set([...COMUM,...DICIONARIO])
+  :new Set();
+localStorage.removeItem('tracos_dict');
 
 // Embaralhamento determinístico por ciclo: seed diferente a cada 891 dias, garantindo ordem única por ciclo
 function seededShuffle(arr,seed){const a=[...arr];let s=seed>>>0;for(let i=a.length-1;i>0;i--){s=(Math.imul(s,1664525)+1013904223)>>>0;const j=s%(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
 const _shuffleCache={};
-function getShuffledForCycle(cycle){if(!_shuffleCache[cycle])_shuffleCache[cycle]=seededShuffle(COMMON,2026+cycle);return _shuffleCache[cycle];}
+function getShuffledForCycle(cycle){if(!_shuffleCache[cycle])_shuffleCache[cycle]=seededShuffle(COMUM,2026+cycle);return _shuffleCache[cycle];}
 
 // ── Estado do jogo ──
 const MAX_ATT = 4, ORIGIN = new Date(Date.UTC(2026, 2, 17));
@@ -2139,25 +2157,8 @@ function saveDay(){
   sv(s);
 }
 
-async function loadDict(){
-  if(!CFG.DAILY_URL)return;
-  const CK='tracos_dict',TTL=7*24*3600*1000;
-  try{
-    const c=JSON.parse(localStorage.getItem(CK)||'null');
-    if(c?.ts&&Date.now()-c.ts<TTL&&c.daily?.length){DAILY_POOL=c.daily;if(c.valid)VALID_SET=new Set(c.valid);return;}
-    const r=await fetch(CFG.DAILY_URL);if(r.ok){const j=await r.json();if(Array.isArray(j)&&j.length)DAILY_POOL=j.map(norm).filter(w=>/^[A-Z]{4,7}$/.test(w));}
-    let va=null;if(CFG.VALID_URL){const r2=await fetch(CFG.VALID_URL);if(r2.ok){const j2=await r2.json();if(Array.isArray(j2)){va=j2.map(norm).filter(w=>/^[A-Z]{4,7}$/.test(w));VALID_SET=new Set([...COMMON,...va]);}}}
-    localStorage.setItem(CK,JSON.stringify({ts:Date.now(),daily:DAILY_POOL,valid:va}));
-  }catch{}
-}
-
 // ── Validação e submissão ──
-async function isValid(word){
-  if(VALID_SET.has(word))return true;
-  const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),4000);
-  try{const r=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/pt/${word.toLowerCase()}`,{signal:ctrl.signal});clearTimeout(tid);if(r.status===404)return false;if(r.ok){const d=await r.json();return Array.isArray(d)&&d.length>0;}return true;}
-  catch(e){clearTimeout(tid);if(e.name==='AbortError')return false;return true;}
-}
+function isValid(word){return VALID_SET.has(word);}
 
 function getLenForDay(day) {
   // 1. Função de Hash para transformar o dia em um número "caótico"
@@ -2189,7 +2190,7 @@ function getLenForDay(day) {
 
 function getTarget(day){
   if(infiniteMode&&infiniteWord)return infiniteWord;
-  const n=COMMON.length;
+  const n=COMUM.length;
   const cycle=Math.floor(day/n);
   const pos=((day%n)+n)%n;
   return getShuffledForCycle(cycle)[pos];
@@ -2255,7 +2256,7 @@ async function submitGuess(raw){
     }
   }
   busy=true;setLoad(true);
-  const ok=await isValid(w);setLoad(false);
+  const ok=isValid(w);setLoad(false);
   if(!ok){busy=false;toast('PALAVRA NÃO ENCONTRADA');shakeInp();return;}
   const prev=revSegs.map(s=>new Set(s));
   G.attempts.push(w);recompute();
@@ -3539,7 +3540,6 @@ window.addEventListener('popstate', (e) => {
 
 // 2. Vai na internet em segundo plano sem travar o jogador
 (async () => {
-  loadDict();         // Baixa o dicionário novo no fundo
   fetchRealTime();    // Confere se é trapaceiro no fundo
 })();
 
