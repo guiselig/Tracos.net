@@ -3270,13 +3270,10 @@ function layoutMobile(){
   const dayLbl=document.getElementById('day-lbl');
   const headerRow=document.querySelector('.header-row');
   const badge=document.querySelector('.daily-badge');
-  const hardBadgeWrap=document.getElementById('hard-badge-wrap');
   const app=mainEl?mainEl.parentElement:null;
   const footerEl=app?app.querySelector('footer'):null;
   if(!btns||!attempts||!leftCol||!leftGlass||!rightCol||!mainEl||!rightCard||!kbGrid||!dayLbl||!app)return;
   if(window.innerWidth<=700){
-    // Hard badge → antes do daily-badge (modo difícil fica acima de modo infinito)
-    if(hardBadgeWrap&&(hardBadgeWrap.parentElement!==leftCol||hardBadgeWrap.nextSibling!==badge)) leftCol.insertBefore(hardBadgeWrap,badge||leftGlass);
     // Badge → antes do glass-card em leftCol
     if(badge&&badge.parentElement!==leftCol) leftCol.insertBefore(badge,leftGlass);
     // Data → após o glass-card em leftCol
@@ -3301,8 +3298,6 @@ function layoutMobile(){
     // Badge e data → de volta no header-row
     if(headerRow&&badge&&badge.parentElement!==headerRow) headerRow.insertBefore(badge,headerRow.firstChild);
     if(headerRow&&dayLbl.parentElement!==headerRow) headerRow.appendChild(dayLbl);
-    // Hard badge → de volta dentro do glass-card
-    if(hardBadgeWrap&&leftGlass&&hardBadgeWrap.parentElement!==leftGlass) leftGlass.appendChild(hardBadgeWrap);
     if(btns.parentElement!==rightCol) rightCol.insertBefore(btns,rightCol.firstChild);
     if(attempts.parentElement!==rightCol) rightCol.appendChild(attempts);
     if(rightCard.parentElement!==mainEl) mainEl.appendChild(rightCard);
