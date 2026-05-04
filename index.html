@@ -606,11 +606,10 @@ main[data-letters="7"] {
 .lf-item:not(.lf-used) .lf-desc { color:var(--text-dim); }
 .btn-use-lf { background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.4); color:#00d4ff; font-family:var(--font-heading); font-size:9px; font-weight:700; letter-spacing:1.5px; padding:6px 11px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0; transition:background .15s; }
 .btn-use-lf:hover { background:rgba(0,212,255,.22); }
-/* Pular */
-.btn-skip { display:none; background:rgba(0,212,255,.06); border:1px solid rgba(0,212,255,.28); color:#00d4ff; font-family:var(--font-heading); font-size:10px; font-weight:700; letter-spacing:2px; padding:9px; border-radius:var(--radius); cursor:pointer; width:100%; transition:all .15s; margin-top:10px; margin-bottom:4px; }
-.btn-skip:hover:not(:disabled) { background:rgba(0,212,255,.14); }
-.btn-skip:disabled { opacity:.28; cursor:not-allowed; }
-body.infinite-active .btn-skip { display:block; }
+/* Pular — dentro do modal de coringas */
+.lf-skip-divider { width:100%; height:1px; background:rgba(0,212,255,.15); margin:6px 0 4px; }
+.lf-item.lf-skip { border-color:rgba(0,212,255,.40); }
+.lf-item.lf-skip.lf-used { opacity:.45; }
 
 /* ── MODO INFINITO ── */
 .mode-card-badge.badge-inf { background:rgba(0,212,255,.10); color:#00d4ff; border:1px solid rgba(0,212,255,.30); }
@@ -776,9 +775,6 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   /* Progresso e células */
   .prog { margin-bottom: 16px; }
   .cells-row { margin-bottom: 14px; gap: clamp(4px, 1.5vw, 8px); }
-  /* Skip: largura respeitando curvas do card, distância fixa dos pontos */
-  .btn-skip { width: calc(100% - 40px) !important; margin: 0 auto 12px !important; }
-  body.infinite-active .btn-skip { display: block !important; }
   .cell-box {
     width: clamp(50px, 15vw, 68px);
     height: clamp(50px, 15vw, 68px);
@@ -913,7 +909,8 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
 .hard-tut-rule-desc { font-size:12px; color:var(--text-mid); line-height:1.6; }
 .btn-inf-info { background:none; border:1px solid rgba(0,212,255,.35); color:#00d4ff; font-size:10px; font-weight:700; font-family:var(--font-heading); cursor:pointer; padding:0; width:17px; height:17px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; line-height:1; flex-shrink:0; transition:background .15s,border-color .15s; }
 .btn-inf-info:hover { background:rgba(0,212,255,.12); border-color:#00d4ff; }
-.inf-tut-modal { background:var(--surface); border:1px solid rgba(0,212,255,.28); border-radius:16px; padding:clamp(20px,4vw,28px); width:100%; max-width:420px; display:flex; flex-direction:column; gap:16px; transform:scale(.94); transition:transform .2s; }
+.inf-tut-modal { background:var(--surface); border:1px solid rgba(0,212,255,.28); border-radius:16px; padding:clamp(20px,4vw,28px); width:100%; max-width:420px; max-height:90dvh; display:flex; flex-direction:column; gap:16px; transform:scale(.94); transition:transform .2s; overflow:hidden; }
+.inf-tut-rules { overflow-y:auto; -webkit-overflow-scrolling:touch; min-height:0; flex:1; }
 .ov.show .inf-tut-modal { transform:scale(1); }
 .inf-tut-title { font-family:var(--font-heading); font-weight:700; font-size:17px; color:#00d4ff; letter-spacing:2px; text-align:center; }
 .inf-tut-sub { font-size:10px; letter-spacing:3px; color:var(--text-dim); text-align:center; margin-top:-8px; }
@@ -1378,7 +1375,6 @@ body.hard-active .logo-icon .sg-correct {
         <div class="prog" id="prog"></div>
         <div class="cells-row" id="cells-row"></div>
         <button id="btn-ok" class="btn-ok">TENTAR</button>
-        <button id="btn-skip" class="btn-skip">CORINGA — PULAR</button>
 
         <div id="attempts-section">
           <span class="att-title" id="att-label" style="display:none">TENTATIVAS</span>
@@ -1645,7 +1641,7 @@ body.hard-active .logo-icon .sg-correct {
     <div class="tut-slide" id="ts-1">
       <div class="tut-num">2 DE 5</div>
       <div class="tut-title">AS LETRAS</div>
-      <div class="tut-body">Cada letra é formada por <strong>tracinhos</strong>, como num relógio digital. Veja alguns exemplos:</div>
+      <div class="tut-body">Cada letra é formada por <strong>traços</strong>, como num relógio digital. Veja alguns exemplos:</div>
       <div class="tut-example" id="tut-ex-1" style="flex-wrap:wrap;gap:12px;justify-content:center"></div>
     </div>
     <div class="tut-slide" id="ts-2">
@@ -1762,21 +1758,21 @@ const LS={A:['a','f','b','g1','g2','e','c'],B:['a','b','g2','c','d','i','l'],C:[
 const segsOf=ch=>LS[ch]||LS.A;
 
 // Verificar disponibilidade do dicionário
-if(typeof COMUM==='undefined'||typeof DICIONARIO==='undefined'){
+if(typeof COMMON==='undefined'||typeof DICTIONARY==='undefined'){
   document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('dict-error-ov').classList.add('show');
   });
 }
-let DAILY_POOL=typeof COMUM!=='undefined'?[...COMUM]:[];
-let VALID_SET=typeof COMUM!=='undefined'&&typeof DICIONARIO!=='undefined'
-  ?new Set([...COMUM,...DICIONARIO])
+let DAILY_POOL=typeof COMMON!=='undefined'?[...COMMON]:[];
+let VALID_SET=typeof COMMON!=='undefined'&&typeof DICTIONARY!=='undefined'
+  ?new Set([...COMMON,...DICTIONARY])
   :new Set();
 localStorage.removeItem('tracos_dict');
 
 // Embaralhamento determinístico por ciclo: seed diferente a cada 891 dias, garantindo ordem única por ciclo
 function seededShuffle(arr,seed){const a=[...arr];let s=seed>>>0;for(let i=a.length-1;i>0;i--){s=(Math.imul(s,1664525)+1013904223)>>>0;const j=s%(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
 const _shuffleCache={};
-function getShuffledForCycle(cycle){if(!_shuffleCache[cycle])_shuffleCache[cycle]=seededShuffle(COMUM,2026+cycle);return _shuffleCache[cycle];}
+function getShuffledForCycle(cycle){if(!_shuffleCache[cycle])_shuffleCache[cycle]=seededShuffle(COMMON,2026+cycle);return _shuffleCache[cycle];}
 
 // ── Estado do jogo ──
 const MAX_ATT = 4, ORIGIN = new Date(Date.UTC(2026, 2, 17));
@@ -2199,7 +2195,7 @@ function getLenForDay(day) {
 
 function getTarget(day){
   if(infiniteMode&&infiniteWord)return infiniteWord;
-  const n=COMUM.length;
+  const n=COMMON.length;
   const cycle=Math.floor(day/n);
   const pos=((day%n)+n)%n;
   return getShuffledForCycle(cycle)[pos];
@@ -2355,7 +2351,7 @@ function render(prevRev=null){
   }).join('');
   // Day label
   if(infiniteMode){
-    document.getElementById('day-lbl').textContent=`∞ · ${infPlayed} JOGADA${infPlayed!==1?'S':''} · ${infStreak} EM SEQUÊNCIA`;
+    document.getElementById('day-lbl').textContent=`${infStreak} EM SEQUÊNCIA`;
     const db=document.querySelector('.daily-badge');if(db)db.textContent='∞ MODO INFINITO';
   }else{
     const dt=dayToDate(currentDay);
@@ -2364,12 +2360,6 @@ function render(prevRev=null){
   }
   // Cells
   buildCells();
-  // Skip button state
-  const btnSkip=document.getElementById('btn-skip');
-  if(btnSkip){
-    btnSkip.disabled=infSkipUsed||!playing;
-    btnSkip.textContent=infSkipUsed?'CORINGA PULAR (USADO)':'CORINGA — PULAR';
-  }
   // Lógica inteligente do botão principal
   const btnOk = document.getElementById('btn-ok');
   if (playing) {
@@ -2650,6 +2640,16 @@ function renderInfHints(){
     if(isUsed){ void item.offsetWidth; item.classList.add('lf-used'); }
     list.appendChild(item);
   });
+  // Divisor + item de pular
+  const skipDiv=document.createElement('div');
+  skipDiv.className='lf-skip-divider';
+  list.appendChild(skipDiv);
+  const skipItem=document.createElement('div');
+  const skipPlaying=G.status==='playing';
+  skipItem.className='lf-item lf-skip'+(infSkipUsed?' lf-used':'');
+  const skipDesc=infSkipUsed?'Já utilizado nesta sequência':'Pule esta palavra sem penalidade na sequência';
+  skipItem.innerHTML=`<div class="lf-icon">🃏</div><div class="lf-body"><div class="lf-name">PULAR PALAVRA</div><div class="lf-desc">${skipDesc}</div></div>${(!infSkipUsed&&skipPlaying)?'<button class="btn-use-lf" onclick="useSkip();closeOv(\'inf-lf-ov\')">USAR</button>':''}`;
+  list.appendChild(skipItem);
 }
 function showInfHints(){renderInfHints();document.getElementById('inf-lf-ov').classList.add('show');}
 function useSkip(){
@@ -3161,7 +3161,6 @@ document.getElementById('btn-hint').addEventListener('click',()=>{
   if(hardMode){ toast('SEM DICAS NO MODO DIFÍCIL 🔥'); return; }
   showHint();
 });
-document.getElementById('btn-skip').addEventListener('click',useSkip);
 document.getElementById('btn-alpha-close').addEventListener('click',()=>closeOv('alpha-ov'));
 document.getElementById('btn-hint-close').addEventListener('click',()=>closeOv('hint-ov'));
 document.getElementById('btn-inf-lf-close').addEventListener('click',()=>closeOv('inf-lf-ov'));
@@ -3274,10 +3273,17 @@ function layoutMobile(){
   const footerEl=app?app.querySelector('footer'):null;
   if(!btns||!attempts||!leftCol||!leftGlass||!rightCol||!mainEl||!rightCard||!kbGrid||!dayLbl||!app)return;
   if(window.innerWidth<=700){
+    // hard-badge-wrap → primeiro em leftCol (acima dos badges)
+    const hardBadgeWrap=document.getElementById('hard-badge-wrap');
+    if(hardBadgeWrap&&leftCol.firstChild!==hardBadgeWrap) leftCol.insertBefore(hardBadgeWrap,leftCol.firstChild);
     // Badge → antes do glass-card em leftCol
     if(badge&&badge.parentElement!==leftCol) leftCol.insertBefore(badge,leftGlass);
-    // Data → após o glass-card em leftCol
-    if(dayLbl.parentElement!==leftCol) leftCol.appendChild(dayLbl);
+    // Data → antes do glass-card no infinito, após no diário
+    if(infiniteMode){
+      if(dayLbl.parentElement!==leftCol||dayLbl.nextElementSibling!==leftGlass) leftCol.insertBefore(dayLbl,leftGlass);
+    }else{
+      if(dayLbl.parentElement!==leftCol||leftCol.lastChild!==dayLbl) leftCol.appendChild(dayLbl);
+    }
     // Ícones → dentro do logo-header (à direita do título)
     const logoHeader=document.getElementById('logo-header');
     if(logoHeader && btns.parentElement!==logoHeader) logoHeader.appendChild(btns);
@@ -3301,6 +3307,9 @@ function layoutMobile(){
     if(btns.parentElement!==rightCol) rightCol.insertBefore(btns,rightCol.firstChild);
     if(attempts.parentElement!==rightCol) rightCol.appendChild(attempts);
     if(rightCard.parentElement!==mainEl) mainEl.appendChild(rightCard);
+    // Restaura hard-badge-wrap dentro do glass-card no desktop
+    const hardBadgeWrap=document.getElementById('hard-badge-wrap');
+    if(hardBadgeWrap&&hardBadgeWrap.parentElement!==leftGlass) leftGlass.appendChild(hardBadgeWrap);
   }
 }
 window.addEventListener('resize', layoutMobile);
