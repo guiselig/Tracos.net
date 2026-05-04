@@ -726,13 +726,13 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   /* Cards: largura total */
   .glass-card { width: 100%; padding: 18px 6px; box-sizing: border-box; }
   .right-card-container {
-    flex: 0 0 auto;
+    flex: 1 0 auto;
     margin-top: 22px;
     width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 3px 0 2px 0 !important;
+    padding: 9px 0 2px 0 !important;
     border: 1px !important;
     border-radius: 20px !important;
     background: #16171b !important;
@@ -808,7 +808,7 @@ body.infinite-active .logo-name { text-shadow:0 0 22px rgba(0,212,255,.40); }
   .sg-on { filter: none; }
 
   /* Footer: dentro do card direito, bem pequeno */
-  footer { display: block; font-size: 8px; padding: 0px 0 4px; text-align: center; opacity: 0.4; }
+  footer { display: block; font-size: 8px; padding: 0px 0 4px; text-align: center; opacity: 0.4; margin-top: auto; }
   /* Teclado no card: sem margem extra (justify-content: flex-end cuida do posicionamento) */
   .right-card-container > #kb-wrap { margin-top: 12px; }
 
@@ -1041,7 +1041,10 @@ body.hard-active .logo-icon .sg-correct {
   50%      { border-color: rgba(248,81,73,.70); box-shadow: 0 0 16px rgba(248,81,73,.35); }
 }
 @media (max-width: 700px) {
-  body.hard-active .g-cell { animation: hardPulse 2s ease-in-out infinite; }
+  body.hard-active .g-cell {
+    border-color: rgba(248,81,73,.45);
+    box-shadow: 0 0 10px rgba(248,81,73,.12);
+  }
   #btn-alpha { display: none; }
 }
 @keyframes hardPulseBox {
@@ -3267,12 +3270,15 @@ function layoutMobile(){
   const dayLbl=document.getElementById('day-lbl');
   const headerRow=document.querySelector('.header-row');
   const badge=document.querySelector('.daily-badge');
+  const hardBadgeWrap=document.getElementById('hard-badge-wrap');
   const app=mainEl?mainEl.parentElement:null;
   const footerEl=app?app.querySelector('footer'):null;
   if(!btns||!attempts||!leftCol||!leftGlass||!rightCol||!mainEl||!rightCard||!kbGrid||!dayLbl||!app)return;
   if(window.innerWidth<=700){
     // Badge → antes do glass-card em leftCol
     if(badge&&badge.parentElement!==leftCol) leftCol.insertBefore(badge,leftGlass);
+    // Hard badge → antes do daily-badge (modo difícil fica acima de modo infinito)
+    if(hardBadgeWrap&&(hardBadgeWrap.parentElement!==leftCol||hardBadgeWrap.nextSibling!==badge)) leftCol.insertBefore(hardBadgeWrap,badge||leftGlass);
     // Data → após o glass-card em leftCol
     if(dayLbl.parentElement!==leftCol) leftCol.appendChild(dayLbl);
     // Ícones → dentro do logo-header (à direita do título)
@@ -3295,6 +3301,8 @@ function layoutMobile(){
     // Badge e data → de volta no header-row
     if(headerRow&&badge&&badge.parentElement!==headerRow) headerRow.insertBefore(badge,headerRow.firstChild);
     if(headerRow&&dayLbl.parentElement!==headerRow) headerRow.appendChild(dayLbl);
+    // Hard badge → de volta dentro do glass-card
+    if(hardBadgeWrap&&hardBadgeWrap.parentElement!==leftGlass) leftGlass.appendChild(hardBadgeWrap);
     if(btns.parentElement!==rightCol) rightCol.insertBefore(btns,rightCol.firstChild);
     if(attempts.parentElement!==rightCol) rightCol.appendChild(attempts);
     if(rightCard.parentElement!==mainEl) mainEl.appendChild(rightCard);
